@@ -86,7 +86,7 @@ write_strsignal (int signal)
 {
 
 #if (defined (__gnu_linux__))
-    if (signal < 0 || signal >= _NSIG || _sys_siglist[signal] == NULL)
+  if (signal < 0 || signal >= _NSIG || strsignal(signal) == NULL)
 #endif
 
     {
@@ -131,7 +131,7 @@ write_strsignal (int signal)
 
 #if (defined (__gnu_linux__))
     else
-        WRITE_WORD(_sys_siglist[signal]);
+	  WRITE_WORD(strsignal(signal));
 #endif
 
 }
@@ -576,7 +576,7 @@ void install_handlers()
 
     std::set_new_handler( oom_handler ); // called if out of memory during new (does not catch malloc)
     std::set_terminate( exception_handler ); // these are not realy used
-    
+
     std::set_unexpected( exception_handler ); // catch unexpected exception
     *(void**)(&dynamic_pthread_setname_np) = dlsym(RTLD_DEFAULT, "pthread_setname_np"); // if not found dlsym then add -ldl library to EXTRA_LDFLAGS
 }

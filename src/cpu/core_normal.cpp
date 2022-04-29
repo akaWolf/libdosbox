@@ -40,7 +40,7 @@
 #define SaveMb(off,val)	mem_writeb(off,val)
 #define SaveMw(off,val)	mem_writew(off,val)
 #define SaveMd(off,val)	mem_writed(off,val)
-#else 
+#else
 #include "paging.h"
 #define LoadMb(off) mem_readb_inline(off)
 #define LoadMw(off) mem_readw_inline(off)
@@ -174,7 +174,7 @@ Bits CPU_Core_Normal_Run(void) {
 		  return CBRET_NONE;
                 } // stop interpretation
 
-if (SegBase(cs)!=0xf0000 && trace_instructions)
+		//if (SegBase(cs)!=0xf0000 && trace_instructions)
 {
   print_instruction(SegBase(cs)>>4,cpu_regs.ip.dword[0]);
 //printf("i%x:%x %s\n",SegBase(cs)>>4,cpu_regs.ip.dword[0], dline);
@@ -204,7 +204,7 @@ restart_opcode:
 		#include "core_normal/prefix_66_0f.h"
 		default:
 		illegal_opcode:
-#if C_DEBUG	
+#if C_DEBUG
 			{
 				Bitu len=(GETIP-reg_eip);
 				LOADIP;
@@ -248,4 +248,3 @@ Bits CPU_Core_Normal_Trap_Run(void) {
 void CPU_Core_Normal_Init(void) {
 
 }
-
