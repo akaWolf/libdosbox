@@ -3,7 +3,7 @@
 
 /* PLEASE DO NOT MODIFY THIS FILE. ALL CHANGES WILL BE LOST! LOOK FOR README FOR DETAILS */
 
-/* 
+/*
  *
  */
 
@@ -4679,9 +4679,9 @@ static const dd kloc_10cb4 = 0x1a20cb4;
 static const dd kloc_10ccd = 0x1a20ccd;
 static const dd kloc_10cd5 = 0x1a20cd5;
 static const dd ksub_10cd8 = 0x1a20cd8;
-static const dd kret_1a2_cd9 = 0x1a20cd9;
+//static const dd kret_1a2_cd9 = 0x1a20cd9;
 static const dd kloc_10d8a = 0x1a20d8a;
-static const dd kloc_10d8e = 0x1a20d8e;
+//static const dd kloc_10d8e = 0x1a20d8e;
 static const dd ksub_10d96 = 0x1a20d96;
 static const dd ksub_10d9f = 0x1a20d9f;
 static const dd kloc_10da6 = 0x1a20da6;

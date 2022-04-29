@@ -1,6 +1,6 @@
 /* PLEASE DO NOT MODIFY THIS FILE. ALL CHANGES WILL BE LOST! LOOK FOR README FOR DETAILS */
 
-/* 
+/*
  *
  */
 
@@ -1177,7 +1177,7 @@
  bool sub_1e16d(m2c::_offsets, struct m2c::_STATE* _state){return _group3(m2c::ksub_1e16d, _state);}
 
 namespace m2c{ m2cf* _ENTRY_POINT_ = &start;}
-        
+
  bool __dispatch_call(m2c::_offsets __i, struct m2c::_STATE* _state){
     X86_REGREF
     if ((__i>>16) == 0) {__i |= ((dd)cs) << 16;}
@@ -2872,7 +2872,7 @@ m2c::shadow_stack.noneedreturn();return true;}
         case m2c::kret_1a2_651: 	_group1(__disp, _state); break;
         case m2c::kloc_132b0: 	_group1(__disp, _state); break;
         case m2c::kloc_172a5: 	_group1(__disp, _state); break;
-        case m2c::kloc_10d8e: 	_group1(__disp, _state); break;
+		  //        case m2c::kloc_10d8e: 	_group1(__disp, _state); break;
         case m2c::kloc_1092d: 	_group1(__disp, _state); break;
         case m2c::kloc_114b1: 	_group1(__disp, _state); break;
         case m2c::kloc_157bd: 	_group1(__disp, _state); break;
@@ -3160,7 +3160,7 @@ m2c::shadow_stack.noneedreturn();return true;}
         case m2c::ksub_177b2: 	_group1(__disp, _state); break;
         case m2c::ksub_17749: 	_group1(__disp, _state); break;
         case m2c::kloc_13091: 	_group1(__disp, _state); break;
-        case m2c::kret_1a2_cd9: 	_group1(__disp, _state); break;
+		  //        case m2c::kret_1a2_cd9: 	_group1(__disp, _state); break;
         case m2c::kloc_1326b: 	_group1(__disp, _state); break;
         case m2c::kloc_138b2: 	_group1(__disp, _state); break;
         case m2c::kloc_15597: 	_group1(__disp, _state); break;
