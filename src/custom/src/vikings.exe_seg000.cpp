@@ -16,65 +16,6 @@ bool copy_palitra_with_shaded()
   X86_REGREF
 	m2c::_STATE *_state;
 	// 2041
-//cs=0x1a2;eip=0x000f03; 	X(PUSH(bx));	// 2043 push    bx ;~ 01A2:0F03
-//ret_1a2_f04:
-	// 4546
-//cs=0x1a2;eip=0x000f04; 	X(PUSH(si));	// 2044 push    si ;~ 01A2:0F04
-//cs=0x1a2;eip=0x000f05; 	X(PUSH(di));	// 2045 push    di ;~ 01A2:0F05
-//cs=0x1a2;eip=0x000f06; 	X(PUSH(es));	// 2046 push    es ;~ 01A2:0F06
-//cs=0x1a2;eip=0x000f07; 	T(MOV(si, 0x7F02));	// 2047 mov     si, 7F02h ;~ 01A2:0F07
-//cs=0x1a2;eip=0x000f0a; 	T(MOV(di, 0x8202));	// 2048 mov     di, 8202h ;~ 01A2:0F0A
-//cs=0x1a2;eip=0x000f0d; 	T(MOV(ax, ds));	// 2049 mov     ax, ds ;~ 01A2:0F0D
-//cs=0x1a2;eip=0x000f0f; 	T(MOV(es, ax));	// 2050 mov     es, ax ;~ 01A2:0F0F
-//cs=0x1a2;eip=0x000f11; 	T(MOV(ah, byte_28822));	// 2052 mov     ah, byte_28822 ;~ 01A2:0F11
-//cs=0x1a2;eip=0x000f15; 	T(OR(ah, byte_28825));	// 2053 or      ah, byte_28825 ;~ 01A2:0F15
-//cs=0x1a2;eip=0x000f19; 	T(MOV(bl, byte_28823));	// 2054 mov     bl, byte_28823 ;~ 01A2:0F19
-//cs=0x1a2;eip=0x000f1d; 	T(OR(bl, byte_28826));	// 2055 or      bl, byte_28826 ;~ 01A2:0F1D
-//cs=0x1a2;eip=0x000f21; 	T(MOV(bh, byte_28824));	// 2056 mov     bh, byte_28824 ;~ 01A2:0F21
-//cs=0x1a2;eip=0x000f25; 	T(OR(bh, byte_28827));	// 2057 or      bh, byte_28827 ;~ 01A2:0F25
-// ah = 0;
-// bl = 0;
-// bh = 0;
-//cs=0x1a2;eip=0x000f29; 	T(MOV(cx, 0x100));	// 2058 mov     cx, 100h ;~ 01A2:0F29
-//loc_10f2c:
-	// 4547
-//cs=0x1a2;eip=0x000f2c; 	T(LODSB);	// 2061 lodsb ;~ 01A2:0F2C
-//cs=0x1a2;eip=0x000f2d; 	T(SUB(al, ah));	// 2062 sub     al, ah ;~ 01A2:0F2D
-//cs=0x1a2;eip=0x000f2f; 	J(JNS(loc_10f33));	// 2063 jns     short loc_10F33 ;~ 01A2:0F2F
-//cs=0x1a2;eip=0x000f31; 	T(MOV(al, 0));	// 2064 mov     al, 0 ;~ 01A2:0F31
-//loc_10f33:
-	// 4548
-//cs=0x1a2;eip=0x000f33; 	T(TEST(al, 0x40));	// 2067 test    al, 40h ;~ 01A2:0F33
-//cs=0x1a2;eip=0x000f35; 	J(JZ(loc_10f39));	// 2068 jz      short loc_10F39 ;~ 01A2:0F35
-//cs=0x1a2;eip=0x000f37; 	T(MOV(al, 0x3F));	// 2069 mov     al, 3Fh ; '?' ;~ 01A2:0F37
-//loc_10f39:
-	// 4549
-//cs=0x1a2;eip=0x000f39; 	X(STOSB);	// 2072 stosb ;~ 01A2:0F39
-//cs=0x1a2;eip=0x000f3a; 	T(LODSB);	// 2073 lodsb ;~ 01A2:0F3A
-//cs=0x1a2;eip=0x000f3b; 	T(SUB(al, bl));	// 2074 sub     al, bl ;~ 01A2:0F3B
-//cs=0x1a2;eip=0x000f3d; 	J(JNS(loc_10f41));	// 2075 jns     short loc_10F41 ;~ 01A2:0F3D
-//cs=0x1a2;eip=0x000f3f; 	T(MOV(al, 0));	// 2076 mov     al, 0 ;~ 01A2:0F3F
-//loc_10f41:
-	// 4550
-//cs=0x1a2;eip=0x000f41; 	T(TEST(al, 0x40));	// 2079 test    al, 40h ;~ 01A2:0F41
-//cs=0x1a2;eip=0x000f43; 	J(JZ(loc_10f47));	// 2080 jz      short loc_10F47 ;~ 01A2:0F43
-//cs=0x1a2;eip=0x000f45; 	T(MOV(al, 0x3F));	// 2081 mov     al, 3Fh ; '?' ;~ 01A2:0F45
-//loc_10f47:
-	// 4551
-//cs=0x1a2;eip=0x000f47; 	X(STOSB);	// 2084 stosb ;~ 01A2:0F47
-//cs=0x1a2;eip=0x000f48; 	T(LODSB);	// 2085 lodsb ;~ 01A2:0F48
-//cs=0x1a2;eip=0x000f49; 	T(SUB(al, bh));	// 2086 sub     al, bh ;~ 01A2:0F49
-//cs=0x1a2;eip=0x000f4b; 	J(JNS(loc_10f4f));	// 2087 jns     short loc_10F4F ;~ 01A2:0F4B
-//cs=0x1a2;eip=0x000f4d; 	T(MOV(al, 0));	// 2088 mov     al, 0 ;~ 01A2:0F4D
-//loc_10f4f:
-	// 4552
-//cs=0x1a2;eip=0x000f4f; 	T(TEST(al, 0x40));	// 2091 test    al, 40h ;~ 01A2:0F4F
-//cs=0x1a2;eip=0x000f51; 	J(JZ(loc_10f55));	// 2092 jz      short loc_10F55 ;~ 01A2:0F51
-//cs=0x1a2;eip=0x000f53; 	T(MOV(al, 0x3F));	// 2093 mov     al, 3Fh ; '?' ;~ 01A2:0F53
-//loc_10f55:
-	// 4553
-//cs=0x1a2;eip=0x000f55; 	X(STOSB);	// 2096 stosb ;~ 01A2:0F55
-//cs=0x1a2;eip=0x000f56; 	J(LOOP(loc_10f2c));	// 2097 loop    loc_10F2C ;~ 01A2:0F56
 db data_pal_1 = *(db*)raddr(ds,0x342);
 db data_pal_2 = *(db*)raddr(ds,0x343);
 db data_pal_3 = *(db*)raddr(ds,0x344);
@@ -108,10 +49,6 @@ for (int i = 0; i < 0x100; i++) {
   source += 3;
   destination += 3;
 }
-//cs=0x1a2;eip=0x000f58; 	X(POP(es));	// 2098 pop     es ;~ 01A2:0F58
-//cs=0x1a2;eip=0x000f59; 	X(POP(di));	// 2100 pop     di ;~ 01A2:0F59
-//cs=0x1a2;eip=0x000f5a; 	X(POP(si));	// 2101 pop     si ;~ 01A2:0F5A
-//cs=0x1a2;eip=0x000f5b; 	X(POP(bx));	// 2102 pop     bx ;~ 01A2:0F5B
 cs=0x1a2;eip=0x000f5c; 	J(RETN(0));	// 2103 retn ;~ 01A2:0F5C
  return true;
 //=============
@@ -151,14 +88,6 @@ loc_1099f:
 	// 4485
 cs=0x1a2;eip=0x00099f; 	T(MOV(dx, ax));	// 1248 mov     dx, ax ;~ 01A2:099F
 cs=0x1a2;eip=0x0009a1; 	T(SHL(dx, 2));	// 1249 shl     dx, 2 ;~ 01A2:09A1
-//printf("offset: %x\n", dx);
-// offset = dx;
-//cs=0x1a2;eip=0x0009a4; 	T(MOV(cx, 0));	// 1250 mov     cx, 0 ;~ 01A2:09A4
-//cs=0x1a2;eip=0x0009a7; 	T(MOV(bx, *(dw*)(raddr(ds,0x2BB2))));	// 1251 mov     bx, ds:2BB2h ;~ 01A2:09A7
-//cs=0x1a2;eip=0x0009ab; 	T(MOV(ax, 0x4200));	// 1252 mov     ax, 4200h ;~ 01A2:09AB
-//cs=0x1a2;eip=0x0009ae; 	J(CALL(sub_128a9,0));	// 1253 call    sub_128A9 ;~ 01A2:09AE
-//cs=0x1a2;eip=0x0009b1; 	J(JC(loc_10997));	// 1254 jb      short loc_10997 ;~ 01A2:09B1
-// printf("!INT21: %x %x %x %x %x %x\n", ah, al, bx, cx, ds, dx);
  {
    dw offset = dx;
    //printf("offset: %x\n", offset);
@@ -167,24 +96,10 @@ cs=0x1a2;eip=0x0009a1; 	T(SHL(dx, 2));	// 1249 shl     dx, 2 ;~ 01A2:09A1
        goto loc_10997;
    }
  }
-//
-//cs=0x1a2;eip=0x0009b3; 	T(MOV(ah, 0x3F));	// 1255 mov     ah, 3Fh ; '?' ;~ 01A2:09B3
-//cs=0x1a2;eip=0x0009b5; 	T(MOV(cx, 8));	// 1256 mov     cx, 8 ;~ 01A2:09B5
-//cs=0x1a2;eip=0x0009b8; 	T(MOV(dx, 0x2BB4));	// 1257 mov     dx, 2BB4h ;~ 01A2:09B8
-//cs=0x1a2;eip=0x0009bb; 	J(CALL(sub_128a9,0));	// 1258 call    sub_128A9 ;~ 01A2:09BB
-//cs=0x1a2;eip=0x0009be; 	J(JC(loc_10997));	// 1259 jb      short loc_10997 ;~ 01A2:09BE
-// printf("!INT21: %x %x %x %x %x %x\n", ah, al, bx, cx, ds, dx);
  if (!fread(raddr(ds,0x2BB4), 0x8, 1, data_handle)) {
    printf("FUCK6\n");
    goto loc_10997;
  }
-//
-//cs=0x1a2;eip=0x0009c0; 	T(MOV(ax, 0x4200));	// 1260 mov     ax, 4200h ;~ 01A2:09C0
-//cs=0x1a2;eip=0x0009c3; 	T(MOV(cx, *(dw*)(raddr(ds,0x2BB6))));	// 1261 mov     cx, ds:2BB6h ;~ 01A2:09C3
-//cs=0x1a2;eip=0x0009c7; 	T(MOV(dx, *(dw*)(raddr(ds,0x2BB4))));	// 1262 mov     dx, ds:2BB4h ;~ 01A2:09C7
-//cs=0x1a2;eip=0x0009cb; 	J(CALL(sub_128a9,0));	// 1263 call    sub_128A9 ;~ 01A2:09CB
-//cs=0x1a2;eip=0x0009ce; 	J(JC(loc_10997));	// 1264 jb      short loc_10997 ;~ 01A2:09CE
-// printf("!INT21: %x %x %x %x %x %x\n", ah, al, bx, cx, ds, dx);
  {
    dd offset = *(dd*)(raddr(ds,0x2BB4));
    //printf("offset: %x\n", offset);
@@ -193,13 +108,6 @@ cs=0x1a2;eip=0x0009a1; 	T(SHL(dx, 2));	// 1249 shl     dx, 2 ;~ 01A2:09A1
        goto loc_10997;
    }
  }
-//
-//cs=0x1a2;eip=0x0009d0; 	T(MOV(ah, 0x3F));	// 1265 mov     ah, 3Fh ; '?' ;~ 01A2:09D0
-//cs=0x1a2;eip=0x0009d2; 	T(MOV(cx, 2));	// 1266 mov     cx, 2 ;~ 01A2:09D2
-//cs=0x1a2;eip=0x0009d5; 	T(MOV(dx, 0x2BBC));	// 1267 mov     dx, 2BBCh ;~ 01A2:09D5
-//cs=0x1a2;eip=0x0009d8; 	J(CALL(sub_128a9,0));	// 1268 call    sub_128A9 ;~ 01A2:09D8
-//cs=0x1a2;eip=0x0009db; 	J(JC(loc_10997));	// 1269 jb      short loc_10997 ;~ 01A2:09DB
-// printf("!INT21: %x %x %x %x %x %x\n", ah, al, bx, cx, ds, dx);
  if (!fread(raddr(ds,0x2BBC), 0x2, 1, data_handle)) {
    printf("FUCK8\n");
    goto loc_10997;
@@ -214,12 +122,6 @@ cs=0x1a2;eip=0x0009f1; 	T(SHR(eax, 4));	// 1275 shr     eax, 4 ;~ 01A2:09F1
 cs=0x1a2;eip=0x0009f5; 	T(CMP(eax, 0x0B08));	// 1276 cmp     eax, 0B08h ;~ 01A2:09F5
 cs=0x1a2;eip=0x0009fb; 	J(JGE(loc_1098e));	// 1277 jge     short loc_1098E ;~ 01A2:09FB
 cs=0x1a2;eip=0x0009fd; 	T(MOV(ds, *(dw*)(raddr(ds,0x2E69))));	// 1278 mov     ds, word ptr ds:2E69h ;~ 01A2:09FD
-//
-//cs=0x1a2;eip=0x000a01; 	T(MOV(dx, 0x1000));	// 1279 mov     dx, 1000h ;~ 01A2:0A01
-//cs=0x1a2;eip=0x000a04; 	T(MOV(ah, 0x3F));	// 1280 mov     ah, 3Fh ; '?' ;~ 01A2:0A04
-//cs=0x1a2;eip=0x000a06; 	J(CALL(sub_128a9,0));	// 1281 call    sub_128A9 ;~ 01A2:0A06
-//cs=0x1a2;eip=0x000a09; 	J(JC(loc_10997));	// 1282 jb      short loc_10997 ;~ 01A2:0A09
-// printf("!INT21: %x %x %x %x %x %x\n", ah, al, bx, cx, ds, dx);
  if (!fread(raddr(ds,0x1000), cx, 1, data_handle)) {
    printf("FUCK9\n");
    goto loc_10997;
@@ -652,14 +554,6 @@ cs=0x1a2;eip=0x000cdb; 	T(CMP(ax, 0x0FFFA));	// 1708 cmp     ax, 0FFFAh ;~ 01A2:
 cs=0x1a2;eip=0x000cde; 	J(JZ(loc_10d8a));	// 1709 jz      loc_10D8A ;~ 01A2:0CDE
 cs=0x1a2;eip=0x000ce2; 	T(MOV(dx, ax));	// 1710 mov     dx, ax ;~ 01A2:0CE2
 cs=0x1a2;eip=0x000ce4; 	T(SHL(dx, 2));	// 1711 shl     dx, 2 ;~ 01A2:0CE4
-//cs=0x1a2;eip=0x000ce7; 	T(MOV(cx, 0));	// 1712 mov     cx, 0 ;~ 01A2:0CE7
-//cs=0x1a2;eip=0x000cea; 	T(MOV(bx, *(dw*)(raddr(ds,0x2BB2))));	// 1713 mov     bx, ds:2BB2h ;~ 01A2:0CEA
-//bx = data_handle;
-// printf("EXIT1\n");
-//exit(0);
-//cs=0x1a2;eip=0x000cee; 	T(MOV(ax, 0x4200));	// 1714 mov     ax, 4200h ;~ 01A2:0CEE
-//cs=0x1a2;eip=0x000cf1; 	J(CALL(sub_128a9,0));	// 1715 call    sub_128A9 ;~ 01A2:0CF1
-//cs=0x1a2;eip=0x000cf4; 	J(JC(loc_10d8e));	// 1716 jb      loc_10D8E ;~ 01A2:0CF4
   {
    dd offset = dx;
    //printf("FFF: 0x%x 0x%x 0x%x\n", offset, *(dw*)(raddr(ds,0x2BB6)), *(dw*)(raddr(ds,0x2BB4)));
@@ -668,20 +562,10 @@ cs=0x1a2;eip=0x000ce4; 	T(SHL(dx, 2));	// 1711 shl     dx, 2 ;~ 01A2:0CE4
        goto loc_10d8e;
    }
   }
-//cs=0x1a2;eip=0x000cf8; 	T(MOV(ax, 0x3F00));	// 1717 mov     ax, 3F00h ;~ 01A2:0CF8
-//cs=0x1a2;eip=0x000cfb; 	T(MOV(cx, 8));	// 1718 mov     cx, 8 ;~ 01A2:0CFB
-//cs=0x1a2;eip=0x000cfe; 	T(MOV(dx, 0x2BB4));	// 1719 mov     dx, 2BB4h ;~ 01A2:0CFE
-//cs=0x1a2;eip=0x000d01; 	J(CALL(sub_128a9,0));	// 1720 call    sub_128A9 ;~ 01A2:0D01
-//cs=0x1a2;eip=0x000d04; 	J(JC(loc_10d8e));	// 1721 jb      loc_10D8E ;~ 01A2:0D04
  if (!fread(raddr(ds,0x2BB4), 0x8, 1, data_handle)) {
    printf("FUCK12\n");
    goto loc_10d8e;
  }
-//cs=0x1a2;eip=0x000d08; 	T(MOV(ax, 0x4200));	// 1722 mov     ax, 4200h ;~ 01A2:0D08
-//cs=0x1a2;eip=0x000d0b; 	T(MOV(cx, *(dw*)(raddr(ds,0x2BB6))));	// 1723 mov     cx, ds:2BB6h ;~ 01A2:0D0B
-//cs=0x1a2;eip=0x000d0f; 	T(MOV(dx, *(dw*)(raddr(ds,0x2BB4))));	// 1724 mov     dx, ds:2BB4h ;~ 01A2:0D0F
-//cs=0x1a2;eip=0x000d13; 	J(CALL(sub_128a9,0));	// 1725 call    sub_128A9 ;~ 01A2:0D13
-//cs=0x1a2;eip=0x000d16; 	J(JC(loc_10d8e));	// 1726 jb      short loc_10D8E ;~ 01A2:0D16
   {
    dd offset = *(dd*)(raddr(ds,0x2BB4));
    //printf("FFF: 0x%x 0x%x 0x%x\n", offset, *(dw*)(raddr(ds,0x2BB6)), *(dw*)(raddr(ds,0x2BB4)));
@@ -690,26 +574,15 @@ cs=0x1a2;eip=0x000ce4; 	T(SHL(dx, 2));	// 1711 shl     dx, 2 ;~ 01A2:0CE4
        goto loc_10d8e;
    }
   }
-//cs=0x1a2;eip=0x000d18; 	T(MOV(ax, 0x3F00));	// 1727 mov     ax, 3F00h ;~ 01A2:0D18
-//cs=0x1a2;eip=0x000d1b; 	T(MOV(cx, 2));	// 1728 mov     cx, 2 ;~ 01A2:0D1B
-//cs=0x1a2;eip=0x000d1e; 	T(MOV(dx, 0x2BBC));	// 1729 mov     dx, 2BBCh ;~ 01A2:0D1E
-//cs=0x1a2;eip=0x000d21; 	J(CALL(sub_128a9,0));	// 1730 call    sub_128A9 ;~ 01A2:0D21
-//cs=0x1a2;eip=0x000d24; 	J(JC(loc_10d8e));	// 1731 jb      short loc_10D8E ;~ 01A2:0D24
  if (!fread(raddr(ds,0x2BBC), 0x2, 1, data_handle)) {
    printf("FUCK14\n");
    goto loc_10d8e;
  }
 cs=0x1a2;eip=0x000d26; 	T(MOV(ax, *(dw*)(raddr(ds,0x2BBC))));	// 1732 mov     ax, ds:2BBCh ;~ 01A2:0D26
-//	cs=seg_offset(seg000);
 cs=0x1a2;eip=0x000d29; 	X(MOV(*(dw*)(((db*)&word_10980)), ax));	// 1733 mov     cs:word_10980, ax ;~ 01A2:0D29
 cs=0x1a2;eip=0x000d2d; 	T(MOV(ds, *(dw*)(raddr(ds,0x2E77))));	// 1734 mov     ds, word ptr ds:2E77h ;~ 01A2:0D2D
-//cs=0x1a2;eip=0x000d31; 	T(MOV(ax, 0x3F00));	// 1735 mov     ax, 3F00h ;~ 01A2:0D31
-//	cs=seg_offset(seg000);
 cs=0x1a2;eip=0x000d34; 	T(MOV(cx, *(dw*)(((db*)&word_10980))));	// 1736 mov     cx, cs:word_10980 ;~ 01A2:0D34
 cs=0x1a2;eip=0x000d39; 	T(SHL(cx, 2));	// 1737 shl     cx, 2 ;~ 01A2:0D39
-//cs=0x1a2;eip=0x000d3c; 	T(MOV(dx, 0));	// 1738 mov     dx, 0 ;~ 01A2:0D3C
-//cs=0x1a2;eip=0x000d3f; 	J(CALL(sub_128a9,0));	// 1739 call    sub_128A9 ;~ 01A2:0D3F
-//cs=0x1a2;eip=0x000d42; 	J(JC(loc_10d8e));	// 1740 jb      short loc_10D8E ;~ 01A2:0D42
  if (!fread(raddr(ds,0), cx, 1, data_handle)) {
    printf("FUCK15\n");
    goto loc_10d8e;
