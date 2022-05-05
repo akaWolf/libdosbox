@@ -2073,6 +2073,8 @@ cs=0x1a2;eip=0x000ff5; 	T(INC(dx));	// 2176 inc     dx ;~ 01A2:0FF5
 cs=0x1a2;eip=0x000ff6; 	T(MOV(cx, 0x300));	// 2177 mov     cx, 300h ;~ 01A2:0FF6
 	// 2178 rep outsb ;~ 01A2:0FF9
 cs=0x1a2;eip=0x000ff9; 	T(	REP OUTSB);	// 2178 rep outsb ;~ 01A2:0FF9
+for (int i; i < 0x100; i++)
+   setPalette(i, *(db*)(raddr(ds,0x8202 + i*3 + 0)) << 2, *(db*)(raddr(ds,0x8202 + i*3 + 1)) << 2, *(db*)(raddr(ds,0x8202 + i*3 + 2)) << 2);
 cs=0x1a2;eip=0x000ffb; 	J(RETN(0));	// 2179 retn ;~ 01A2:0FFB
 sub_10ffc:
 	// 2186
