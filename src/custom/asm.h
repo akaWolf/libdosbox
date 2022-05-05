@@ -321,7 +321,7 @@ dd _source;
 
 
     typedef bool m2cf(_offsets, struct _STATE *); // common masm2c function
-    
+
     template<class S>
     constexpr bool isaddrbelongtom(const S *const a) {
         return ((const db *const) &m < (const db *const) a) && ((const db *const) &m + 16 * 1024 * 1024 >
@@ -880,16 +880,16 @@ static void setdata(dd* d, dd s)
 //template <class D>
 //void SHLD_(D& op1, D op2, size_t op3, m2c::eflags& m2cflags);
 /*
-{ 
+{
  if(Count != 0) {
 int TCount = Count&(2*m2c::bitsizeof(Destination)-1);
-if (TCount>m2c::bitsizeof(Destination)) {SHRD_(Destination, Source, 2*m2c::bitsizeof(Destination)-TCount, m2cflags);} 
+if (TCount>m2c::bitsizeof(Destination)) {SHRD_(Destination, Source, 2*m2c::bitsizeof(Destination)-TCount, m2cflags);}
 else
 {
 AFFECT_CF(((Destination<<m2c::bitsizeof(Destination)+Source) >> (32 - Count)) & 1);
-//		AFFECT_CF(m2c::getbit(Destination,m2c::bitsizeof(Destination)-TCount)); 
+//		AFFECT_CF(m2c::getbit(Destination,m2c::bitsizeof(Destination)-TCount));
 		Destination<<=TCount;
-		for(int i = 0; i < TCount; ++i) 
+		for(int i = 0; i < TCount; ++i)
 			if (i>=0) {m2c::bitset(Destination,m2c::getbit(Source,m2c::bitsizeof(Destination) - TCount + i),i);}
 }
  }
@@ -1196,7 +1196,7 @@ AFFECT_CF(((Destination<<m2c::bitsizeof(Destination)+Source) >> (32 - Count)) & 
 #define MUL3_2(a, b, c) {dd averytemporary=(dd)(b)*(c);a=averytemporary; AFFECT_ZFifz(a); AFFECT_OF(AFFECT_CF(averytemporary>>16));}
 #define MUL3_4(a, b, c) {dq averytemporary=(dq)(b)*(c);a=averytemporary; AFFECT_ZFifz(a); AFFECT_OF(AFFECT_CF(averytemporary>>32));}
 
-// TODO properly handle divide by zero: if(!a) {if (GET_OF()) _INT(4);} else 
+// TODO properly handle divide by zero: if(!a) {if (GET_OF()) _INT(4);} else
 /*
 #define IDIV1(a) {SETFLAGBIT(OF,0);if(a) {int16_t averytemporary=ax;al=averytemporary/((int8_t)a); ah=averytemporary%((int8_t)a); AFFECT_OF(false);}}
 #define IDIV2(a) {SETFLAGBIT(OF,0);if(a) {int32_t averytemporary=(((int32_t)(int16_t)dx)<<16)|ax; ax=averytemporary/((int16_t)a);dx=averytemporary%((int16_t)a); AFFECT_OF(false);}}
@@ -1330,12 +1330,21 @@ AFFECT_CF(((Destination<<m2c::bitsizeof(Destination)+Source) >> (32 - Count)) & 
  #define MOV(dest,src) {dest = src;}
 #endif
 */
+ template<class S>
+    constexpr bool isaddrbelongtovga(const S *const a) {
+        return ((const db *const) &m + 0xa0000 < (const db *const) a) && ((const db *const) &m + 0xc0000 >
+                                                                (const db *const) a);
+    }
 
 
 #define MOV(dest, src) {m2c::MOV_(&dest,src);}
 
     template<class D, class S>
-    inline void MOV_(D *dest, const S &src) { m2c::setdata(dest, static_cast<D>(m2c::getdata(src))); }
+    inline void MOV_(D *dest, const S &src) {
+	  //	  if (isaddrbelongtovga(dest))
+	  //		printf("VGA\n");
+	  m2c::setdata(dest, static_cast<D>(m2c::getdata(src)));
+	}
 //{ *dest = static_cast<D>(src); }
 
 #define LEAVE {MOV(esp, ebp));POP(ebp);}
@@ -1393,7 +1402,7 @@ AFFECT_CF(((Destination<<m2c::bitsizeof(Destination)+Source) >> (32 - Count)) & 
 
 // JMP - Unconditional Jump
 #define JMP(label) GOTOLABEL(label)
-#define GOTOLABEL(a) {_source=__LINE__;goto a;}
+#define GOTOLABEL(a) {_source=__LINE__;/*if (cs==0xe25) printf("SEG3: %x %x\n", eip, bp);*/goto a;}
 
 
 #define CLD {AFFECT_DF(0);}
@@ -1491,7 +1500,7 @@ struct StackPop
             m2c::_indent -= 1;
             m2c::_str = m2c::log_spaces(m2c::_indent);
         }
-        if (skip>0) 
+        if (skip>0)
           {
 log_error("~~will throw exception skip call=%d\n",skip);
 //shadow_stack.print(0);
@@ -1530,7 +1539,7 @@ log_debug("new %x:%x\n", cs,ip);
             m2c::_indent -= 1;
             m2c::_str = m2c::log_spaces(m2c::_indent);
         }
-        if (skip>0) 
+        if (skip>0)
           {
 log_error("~~will throw exception skip call=%d\n",skip);
 //shadow_stack.print(0);
@@ -1568,7 +1577,7 @@ shadow_stack.decreasedeep();
              }
              else
              {  log_error("~~Finished with skipping calls\n");
-		
+
              }
 
         }
@@ -1608,10 +1617,10 @@ shadow_stack.decreasedeep();
 // clean format
 //    #define R(a) {log_debug("%s%x:%d:%s eax: %x ebx: %x ecx: %x edx: %x ebp: %x ds: %x esi: %x es: %x edi: %x fs: %x esp: %x\n",_state->_str,cs/*pthread_self()*/,__LINE__,#a, \
 //eax, ebx, ecx, edx, ebp, ds, esi, es, edi, fs, esp);} \
-//	a 
+//	a
 // dosbox logcpu format
 //    #define R(a) {m2c::run_hw_interrupts();log_debug("%05d %04X:%08X  %-54s EAX:%08X EBX:%08X ECX:%08X EDX:%08X ESI:%08X EDI:%08X EBP:%08X ESP:%08X DS:%04X ES:%04X FS:%04X GS:%04X SS:%04X CF:%d ZF:%d SF:%d OF:%d AF:%d PF:%d IF:%d\n", \
-//                         __LINE__,cs,eip,#a,       eax,     ebx,     ecx,     edx,     esi,     edi,     ebp,     esp,     ds,     es,     fs,     gs,     ss,     GET_CF(), GET_ZF(), GET_SF(), GET_OF(), GET_AF(), GET_PF(), GET_IF());} 
+//                         __LINE__,cs,eip,#a,       eax,     ebx,     ecx,     edx,     esi,     edi,     ebp,     esp,     ds,     es,     fs,     gs,     ss,     GET_CF(), GET_ZF(), GET_SF(), GET_OF(), GET_AF(), GET_PF(), GET_IF());}
 
 //    #define R(a) { m2c::run_hw_interrupts(); m2c::log_regs_dbx(__FILE__,__LINE__,#a, cpu_regs, Segs); {a;}}
 //    #define T(a) { m2c::run_hw_interrupts(); m2c::log_regs_dbx(__FILE__,__LINE__,#a, cpu_regs, Segs); {a;}}
@@ -1621,10 +1630,10 @@ shadow_stack.decreasedeep();
 // clean format
 //    #define R(a) {log_debug("%s%x:%d:%s eax: %x ebx: %x ecx: %x edx: %x ebp: %x ds: %x esi: %x es: %x edi: %x fs: %x esp: %x\n",_state->_str,cs/*pthread_self()*/,__LINE__,#a, \
 //eax, ebx, ecx, edx, ebp, ds, esi, es, edi, fs, esp);} \
-//	a 
+//	a
 // dosbox logcpu format
 //    #define R(a) {m2c::run_hw_interrupts();log_debug("%05d %04X:%08X  %-54s EAX:%08X EBX:%08X ECX:%08X EDX:%08X ESI:%08X EDI:%08X EBP:%08X ESP:%08X DS:%04X ES:%04X FS:%04X GS:%04X SS:%04X CF:%d ZF:%d SF:%d OF:%d AF:%d PF:%d IF:%d\n", \
-//                         __LINE__,cs,eip,#a,       eax,     ebx,     ecx,     edx,     esi,     edi,     ebp,     esp,     ds,     es,     fs,     gs,     ss,     GET_CF(), GET_ZF(), GET_SF(), GET_OF(), GET_AF(), GET_PF(), GET_IF());} 
+//                         __LINE__,cs,eip,#a,       eax,     ebx,     ecx,     edx,     esi,     edi,     ebp,     esp,     ds,     es,     fs,     gs,     ss,     GET_CF(), GET_ZF(), GET_SF(), GET_OF(), GET_AF(), GET_PF(), GET_IF());}
 
 #define R(a) { if (compare_jump) {m2c::Jend();}\
               m2c::run_hw_interrupts(); m2c::log_regs_dbx(__FILE__,__LINE__,#a, cpu_regs, Segs); \
@@ -1745,9 +1754,9 @@ enum  _offsets;
 
 #define OUT(port, value) m2c::OUT_(port,value)
 
-    static void OUT_(dw port, db value) { IO_WriteB(port, value); }
+static void OUT_(dw port, db value) { printf("OUT: %x %x\n", port, value); IO_WriteB(port, value); }
 
-    static void OUT_(dw port, dw value) { IO_WriteW(port, value); }
+static void OUT_(dw port, dw value) { printf("OUT: %x %x\n", port, value); IO_WriteW(port, value); }
 
 #define IN(res, port) m2c::IN_(res, port)
 
@@ -1846,4 +1855,3 @@ extern void print_instruction_direct(Bit16u newcs, Bit32u newip);
 extern struct SDL_Renderer *renderer;
 
 #endif
-
