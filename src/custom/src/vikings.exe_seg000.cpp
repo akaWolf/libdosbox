@@ -13033,6 +13033,32 @@ sub_16807:
 	// 15505
 cs=0x1a2;eip=0x006807; 	T(MOV(ax, 0x13));	// 15506 mov     ax, 13h ;~ 01A2:6807
 cs=0x1a2;eip=0x00680a; 	R(_INT(0x10));	// 15507 int     10h             ; - VIDEO - SET VIDEO MODE ;~ 01A2:680A
+ {
+ dw port = 0x3c4;
+ al = 4;
+ R(OUT(port, al));
+ port++;
+ R(IN(al, port));
+ printf("VGA 3c4/04 = %x\n", al);
+ port = 0x3c4;
+ al = 1;
+ R(OUT(port, al));
+ port++;
+ R(IN(al, port));
+ printf("VGA 3c4/01 = %x\n", al);
+ port = 0x3d4;
+ al = 0;
+ R(OUT(port, al));
+ port++;
+ R(IN(al, port));
+ printf("VGA 3d4/00 = %x\n", al);
+ port = 0x3d4;
+ al = 1;
+ R(OUT(port, al));
+ port++;
+ R(IN(al, port));
+ printf("VGA 3d4/01 = %x\n", al);
+ }
 cs=0x1a2;eip=0x00680c; 	J(CALL(sub_1106f,0));	// 15509 call    sub_1106F ;~ 01A2:680C
 cs=0x1a2;eip=0x00680f; 	T(MOV(dx, 0x3C4));	// 15510 mov     dx, 3C4h ;~ 01A2:680F
 cs=0x1a2;eip=0x006812; 	T(MOV(ax, 0x604));	// 15511 mov     ax, 604h ;~ 01A2:6812
