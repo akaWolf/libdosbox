@@ -11,6 +11,42 @@ extern bool trace_instructions;
 
 static FILE* data_handle = 0;
 
+           #include <sys/mman.h>
+           #include <fcntl.h>
+           #include <semaphore.h>
+           #include <sys/stat.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <unistd.h>
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); } while (0)
+
+#include <SDL2/SDL.h>
+//uint8_t* drawBuffer;
+//SDL_Color* drawPalette;
+uint32_t myOffset = 0;
+struct myDrawInfoS
+{
+  uint8_t drawBuffer[65536*4];
+  SDL_Color drawPalette[256];
+  uint32_t myOffset;
+  uint8_t myPixelOffset;
+};
+struct myDrawInfoS* myDrawInfo;
+
+unsigned int plane4_to_linear(unsigned int plane, unsigned int offset)
+{
+  return offset * 4 + plane;
+}
+void drawPixel(uint32_t offset, uint8_t color)
+{
+  myDrawInfo->drawBuffer[myOffset + offset] = color;
+}
+void setPalette(uint8_t color, uint8_t r, uint8_t g, uint8_t b)
+{
+  myDrawInfo->drawPalette[color] = {r, g, b, 255};
+}
+
+
 bool set_display_memory_addr()
 {
   X86_REGREF
@@ -751,6 +787,32 @@ cs=0x1a2;eip=0x000d93; 	J(CALL(sub_10dba,0));	// 1788 call    sub_10DBA ;~ 01A2:
     _group1:
     _begin:
 start:
+	{
+	    		char *shmpath = "/myDrawInfo";
+               /* Open the existing shared memory object and map it
+                  into the caller's address space. */
+
+               int fd = shm_open(shmpath, O_RDWR, 0);
+               if (fd == -1)
+                   errExit("shm_open");
+
+               myDrawInfo = (myDrawInfoS *)mmap(NULL, sizeof(*myDrawInfo),
+                                          PROT_READ | PROT_WRITE,
+                                          MAP_SHARED, fd, 0);
+               if (myDrawInfo == MAP_FAILED)
+                   errExit("mmap");
+
+			   			setPalette(0, 0, 0, 0);
+		   setPalette(1, 255, 255, 255);
+
+		   for (int i = 0; i < sizeof(myDrawInfo->drawBuffer); i++)
+			 myDrawInfo->drawBuffer[i] = 0;
+
+		   for (int i = 0; i < 320; i++)
+			 for (int j = 0; j < 240; j++)
+			   if (i == j)
+			   myDrawInfo->drawBuffer[j*320+i] = 1;
+	}
 	// 35
 cs=0x1a2;eip=0x000000; 	J(CALL(sub_12948,0));	// 36 call    sub_12948 ;~ 01A2:0000
 ret_1a2_3:
