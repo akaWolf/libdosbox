@@ -663,19 +663,17 @@ bool read_and_display_raw_chunk()
 {
   X86_REGREF
 	m2c::_STATE *_state;
-printf("~! Loading raw chunk %x\n", ax);
+  printf("~! Loading raw chunk %x offset %x\n", ax, di);
+//cs=0x1a2;eip=0x000d8d; 	J(RETN(0));	// 1781 retn ;~ 01A2:0D8D //debug
 	// 1703
-cs=0x1a2;eip=0x000cd8; 	X(PUSH(ds));	// 1705 push    ds ;~ 01A2:0CD8
-//ret_1a2_cd9:
-	// 4528
-cs=0x1a2;eip=0x000cd9; 	X(PUSH(es));	// 1706 push    es ;~ 01A2:0CD9
-cs=0x1a2;eip=0x000cda; 	X(PUSH(di));	// 1707 push    di ;~ 01A2:0CDA
-cs=0x1a2;eip=0x000cdb; 	T(CMP(ax, 0x0FFFA));	// 1708 cmp     ax, 0FFFAh ;~ 01A2:0CDB
-cs=0x1a2;eip=0x000cde; 	J(JZ(loc_10d8a));	// 1709 jz      loc_10D8A ;~ 01A2:0CDE
-cs=0x1a2;eip=0x000ce2; 	T(MOV(dx, ax));	// 1710 mov     dx, ax ;~ 01A2:0CE2
-cs=0x1a2;eip=0x000ce4; 	T(SHL(dx, 2));	// 1711 shl     dx, 2 ;~ 01A2:0CE4
-  {
-   dd offset = dx;
+ dw plane_size = 0;
+ dw display_offset = di;
+ dw chunk_addr = 0;
+
+ if (ax == 0x0FFFA)
+   goto loc_10d8a;
+ {
+   dd offset = ax * 4;
    //printf("FFF: 0x%x 0x%x 0x%x\n", offset, *(dw*)(raddr(ds,0x2BB6)), *(dw*)(raddr(ds,0x2BB4)));
    if (fseek(data_handle, offset, SEEK_SET)) {
 	   printf("FUCK11\n");
@@ -698,57 +696,41 @@ cs=0x1a2;eip=0x000ce4; 	T(SHL(dx, 2));	// 1711 shl     dx, 2 ;~ 01A2:0CE4
    printf("FUCK14\n");
    goto loc_10d8e;
  }
-cs=0x1a2;eip=0x000d26; 	T(MOV(ax, *(dw*)(raddr(ds,0x2BBC))));	// 1732 mov     ax, ds:2BBCh ;~ 01A2:0D26
-cs=0x1a2;eip=0x000d29; 	X(MOV(*(dw*)(((db*)&word_10980)), ax));	// 1733 mov     cs:word_10980, ax ;~ 01A2:0D29
-cs=0x1a2;eip=0x000d2d; 	T(MOV(ds, *(dw*)(raddr(ds,0x2E77))));	// 1734 mov     ds, word ptr ds:2E77h ;~ 01A2:0D2D
-cs=0x1a2;eip=0x000d34; 	T(MOV(cx, *(dw*)(((db*)&word_10980))));	// 1736 mov     cx, cs:word_10980 ;~ 01A2:0D34
-cs=0x1a2;eip=0x000d39; 	T(SHL(cx, 2));	// 1737 shl     cx, 2 ;~ 01A2:0D39
- if (!fread(raddr(ds,0), cx, 1, data_handle)) {
+ plane_size = *(dw*)(raddr(ds,0x2BBC));
+ *(dw*)(((db*)&word_10980)) = plane_size;
+
+ chunk_addr = *(dw*)(raddr(ds,0x2E77));
+
+ if (!fread(raddr(chunk_addr,0), plane_size * 4, 1, data_handle)) {
    printf("FUCK15\n");
    goto loc_10d8e;
  }
-cs=0x1a2;eip=0x000d44; 	T(MOV(ax, 0x0A000));	// 1741 mov     ax, 0A000h ;~ 01A2:0D44
-cs=0x1a2;eip=0x000d47; 	T(MOV(es, ax));	// 1742 mov     es, ax ;~ 01A2:0D47
-cs=0x1a2;eip=0x000d49; 	X(PUSH(di));	// 1744 push    di ;~ 01A2:0D49
-cs=0x1a2;eip=0x000d4a; 	T(MOV(dx, 0x3C4));	// 1745 mov     dx, 3C4h ;~ 01A2:0D4A
-cs=0x1a2;eip=0x000d4d; 	T(MOV(ax, 0x102));	// 1746 mov     ax, 102h ;~ 01A2:0D4D
-cs=0x1a2;eip=0x000d50; 	R(OUT(dx, ax));	// 1747 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:0D50
-cs=0x1a2;eip=0x000d51; 	T(MOV(si, 0));	// 1749 mov     si, 0 ;~ 01A2:0D51
-	cs=seg_offset(seg000);
-cs=0x1a2;eip=0x000d54; 	T(MOV(cx, *(dw*)(((db*)&word_10980))));	// 1750 mov     cx, cs:word_10980 ;~ 01A2:0D54
-	// 1751 rep movsb ;~ 01A2:0D59
-cs=0x1a2;eip=0x000d59; 	X(	REP MOVSB);	// 1751 rep movsb ;~ 01A2:0D59
-cs=0x1a2;eip=0x000d5b; 	X(POP(di));	// 1752 pop     di ;~ 01A2:0D5B
-cs=0x1a2;eip=0x000d5c; 	X(PUSH(di));	// 1753 push    di ;~ 01A2:0D5C
-cs=0x1a2;eip=0x000d5d; 	T(MOV(dx, 0x3C4));	// 1754 mov     dx, 3C4h ;~ 01A2:0D5D
-cs=0x1a2;eip=0x000d60; 	T(MOV(ax, 0x202));	// 1755 mov     ax, 202h ;~ 01A2:0D60
-cs=0x1a2;eip=0x000d63; 	R(OUT(dx, ax));	// 1756 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:0D63
-	cs=seg_offset(seg000);
-cs=0x1a2;eip=0x000d64; 	T(MOV(cx, *(dw*)(((db*)&word_10980))));	// 1758 mov     cx, cs:word_10980 ;~ 01A2:0D64
-	// 1759 rep movsb ;~ 01A2:0D69
-cs=0x1a2;eip=0x000d69; 	X(	REP MOVSB);	// 1759 rep movsb ;~ 01A2:0D69
-cs=0x1a2;eip=0x000d6b; 	X(POP(di));	// 1760 pop     di ;~ 01A2:0D6B
-cs=0x1a2;eip=0x000d6c; 	X(PUSH(di));	// 1761 push    di ;~ 01A2:0D6C
-cs=0x1a2;eip=0x000d6d; 	T(MOV(dx, 0x3C4));	// 1762 mov     dx, 3C4h ;~ 01A2:0D6D
-cs=0x1a2;eip=0x000d70; 	T(MOV(ax, 0x402));	// 1763 mov     ax, 402h ;~ 01A2:0D70
-cs=0x1a2;eip=0x000d73; 	R(OUT(dx, ax));	// 1764 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:0D73
-	cs=seg_offset(seg000);
-cs=0x1a2;eip=0x000d74; 	T(MOV(cx, *(dw*)(((db*)&word_10980))));	// 1766 mov     cx, cs:word_10980 ;~ 01A2:0D74
-	// 1767 rep movsb ;~ 01A2:0D79
-cs=0x1a2;eip=0x000d79; 	X(	REP MOVSB);	// 1767 rep movsb ;~ 01A2:0D79
-cs=0x1a2;eip=0x000d7b; 	X(POP(di));	// 1768 pop     di ;~ 01A2:0D7B
-cs=0x1a2;eip=0x000d7c; 	T(MOV(dx, 0x3C4));	// 1769 mov     dx, 3C4h ;~ 01A2:0D7C
-cs=0x1a2;eip=0x000d7f; 	T(MOV(ax, 0x802));	// 1770 mov     ax, 802h ;~ 01A2:0D7F
-cs=0x1a2;eip=0x000d82; 	R(OUT(dx, ax));	// 1771 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:0D82
-	cs=seg_offset(seg000);
-cs=0x1a2;eip=0x000d83; 	T(MOV(cx, *(dw*)(((db*)&word_10980))));	// 1773 mov     cx, cs:word_10980 ;~ 01A2:0D83
-	// 1774 rep movsb ;~ 01A2:0D88
-cs=0x1a2;eip=0x000d88; 	X(	REP MOVSB);	// 1774 rep movsb ;~ 01A2:0D88
+
+ cs=0x1a2;eip=0x000d50; 	R(OUT((dw)0x3C4, (dw)0x102));	// plane 0
+ for (int i = 0; i < plane_size; i++)
+   T(MOV(*(db*)(raddr(0x0A000,display_offset + i)), *(db*)(raddr(chunk_addr,plane_size * 0 + i))));
+
+ cs=0x1a2;eip=0x000d63; 	R(OUT((dw)0x3C4, (dw)0x202));	// plane 1
+ for (int i = 0; i < plane_size; i++)
+   T(MOV(*(db*)(raddr(0x0A000,display_offset + i)), *(db*)(raddr(chunk_addr,plane_size * 1 + i))));
+
+ cs=0x1a2;eip=0x000d63; 	R(OUT((dw)0x3C4, (dw)0x402));	// plane 2
+ for (int i = 0; i < plane_size; i++)
+   T(MOV(*(db*)(raddr(0x0A000,display_offset + i)), *(db*)(raddr(chunk_addr,plane_size * 2 + i))));
+
+ cs=0x1a2;eip=0x000d63; 	R(OUT((dw)0x3C4, (dw)0x802));	// plane 3
+ for (int i = 0; i < plane_size; i++)
+   T(MOV(*(db*)(raddr(0x0A000,display_offset + i)), *(db*)(raddr(chunk_addr,plane_size * 3 + i))));
+
+ for (int i = 0; i < plane_size; i++)
+   {
+	 //(uint8_t *)(screenSurface->pixels)[plane4_to_linear(0, i)] = 0;
+	 for (int j = 0; j < 4; j++)
+	   drawPixel(plane4_to_linear(j, display_offset + i), *(db*)(raddr(chunk_addr,plane_size * j + i)));
+	   //((uint8_t*)(drawSurface->pixels))[plane4_to_linear(j, i)] = *(db*)(raddr(chunk_addr,plane_size * j + i));
+   }
 loc_10d8a:
 	// 4529
-cs=0x1a2;eip=0x000d8a; 	X(POP(di));	// 1777 pop     di ;~ 01A2:0D8A
-cs=0x1a2;eip=0x000d8b; 	X(POP(es));	// 1778 pop     es ;~ 01A2:0D8B
-cs=0x1a2;eip=0x000d8c; 	X(POP(ds));	// 1780 pop     ds ;~ 01A2:0D8C
 cs=0x1a2;eip=0x000d8d; 	J(RETN(0));	// 1781 retn ;~ 01A2:0D8D
 loc_10d8e:
 	// 4530
