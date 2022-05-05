@@ -54,67 +54,55 @@ bool set_display_memory_addr()
   	// 15428
 cs=0x1a2;eip=0x006775; 	X(PUSH(cx));	// 15430 push    cx ;~ 01A2:6775
 // trace_instructions = true; trace_instructions_to_stdout = true;
-// printf("set displ mem\n");
-//ret_1a2_6776:
-	// 5757
-//cs=0x1a2;eip=0x006776; 	T(MOV(si, *(dw*)(raddr(ds,0x46))));	// 15431 mov     si, ds:46h ;~ 01A2:6776
-//cs=0x1a2;eip=0x00677a; 	T(ADD(si, *(dw*)(raddr(ds,0x3A0))));	// 15432 add     si, ds:3A0h ;~ 01A2:677A
-//cs=0x1a2;eip=0x00677e; 	T(CMP(si, *(dw*)(raddr(ds,0x25A6))));	// 15433 cmp     si, ds:25A6h ;~ 01A2:677E
-//cs=0x1a2;eip=0x006782; 	J(JBE(loc_1678c));	// 15434 jbe     short loc_1678C ;~ 01A2:6782
-//cs=0x1a2;eip=0x006784; 	T(MOV(si, *(dw*)(raddr(ds,0x46))));	// 15435 mov     si, ds:46h ;~ 01A2:6784
-//cs=0x1a2;eip=0x006788; 	T(SUB(si, *(dw*)(raddr(ds,0x3A0))));	// 15436 sub     si, ds:3A0h ;~ 01A2:6788
-//loc_1678c:
-	// 5758
-//cs=0x1a2;eip=0x00678c; 	T(MOV(bx, 7));	// 15439 mov     bx, 7 ;~ 01A2:678C
-//cs=0x1a2;eip=0x00678f; 	T(AND(bx, si));	// 15440 and     bx, si ;~ 01A2:678F
-//cs=0x1a2;eip=0x006791; 	T(AND(si, 0x0FFF8));	// 15441 and     si, 0FFF8h ;~ 01A2:6791
-//cs=0x1a2;eip=0x006795; 	T(SHR(si, 2));	// 15442 shr     si, 2 ;~ 01A2:6795
-//cs=0x1a2;eip=0x006798; 	T(ADD(si, *(dw*)(raddr(ds,0x92F9))));	// 15443 add     si, ds:92F9h ;~ 01A2:6798
-//cs=0x1a2;eip=0x00679c; 	T(SHL(bx, 1));	// 15444 shl     bx, 1 ;~ 01A2:679C
-//cs=0x1a2;eip=0x00679e; 	T(MOV(cx, *(dw*)(raddr(ds,si-0x7608))));	// 15445 mov     cx, [si-7608h] ;~ 01A2:679E
-//cs=0x1a2;eip=0x0067a2; 	T(MOV(bx, *(dw*)(raddr(ds,bx-0x71A8))));	// 15446 mov     bx, [bx-71A8h] ;~ 01A2:67A2
-//cs=0x1a2;eip=0x0067a6; 	T(ADD(bx, cx));	// 15447 add     bx, cx ;~ 01A2:67A6
-//cs=0x1a2;eip=0x0067a8; 	T(MOV(ax, *(dw*)(raddr(ds,0x44))));	// 15448 mov     ax, ds:44h ;~ 01A2:67A8
-//cs=0x1a2;eip=0x0067ab; 	T(ADD(ax, *(dw*)(raddr(ds,0x39E))));	// 15449 add     ax, ds:39Eh ;~ 01A2:67AB
-//cs=0x1a2;eip=0x0067af; 	T(CMP(ax, *(dw*)(raddr(ds,0x25A4))));	// 15450 cmp     ax, ds:25A4h ;~ 01A2:67AF
-//cs=0x1a2;eip=0x0067b3; 	J(JBE(loc_167bc));	// 15451 jbe     short loc_167BC ;~ 01A2:67B3
-//cs=0x1a2;eip=0x0067b5; 	T(MOV(ax, *(dw*)(raddr(ds,0x44))));	// 15452 mov     ax, ds:44h ;~ 01A2:67B5
-//cs=0x1a2;eip=0x0067b8; 	T(SUB(ax, *(dw*)(raddr(ds,0x39E))));	// 15453 sub     ax, ds:39Eh ;~ 01A2:67B8
-//loc_167bc:
-	// 5759
-//cs=0x1a2;eip=0x0067bc; 	T(MOV(cx, 3));	// 15456 mov     cx, 3 ;~ 01A2:67BC
-//cs=0x1a2;eip=0x0067bf; 	T(AND(cx, ax));	// 15457 and     cx, ax ;~ 01A2:67BF
-//cs=0x1a2;eip=0x0067c1; 	T(SHL(cx, 1));	// 15458 shl     cx, 1 ;~ 01A2:67C1
-//cs=0x1a2;eip=0x0067c3; 	T(SHR(ax, 2));	// 15459 shr     ax, 2 ;~ 01A2:67C3
-//cs=0x1a2;eip=0x0067c6; 	T(ADD(bx, ax));	// 15460 add     bx, ax ;~ 01A2:67C6
-//cs=0x1a2;eip=0x0067c8; 	T(ADD(bx, 8));	// 15461 add     bx, 8 ;~ 01A2:67C8
-si = *(dw*)(raddr(ds,0x46)) + *(dw*)(raddr(ds,0x3a0));
-if (si > *(dw*)(raddr(ds,0x25a6))) {
-  si = *(dw*)(raddr(ds,0x46)) - *(dw*)(raddr(ds,0x3a0));
+dw y_disp_offset = *(dw*)(raddr(ds,0x46));
+dw y_some_offset = *(dw*)(raddr(ds,0x3a0));
+dw y_level_size = *(dw*)(raddr(ds,0x25a6));
+
+dw x_disp_offset = *(dw*)(raddr(ds,0x44));
+dw x_some_offset = *(dw*)(raddr(ds,0x39e));
+dw x_level_size = *(dw*)(raddr(ds,0x25a4));
+
+dw page_offset = *(dw*)(raddr(ds,0x92f9));
+
+dw y_offset = y_disp_offset + y_some_offset;
+if (y_offset > y_level_size) {
+  y_offset = y_disp_offset - y_some_offset;
 }
 
-bx = (si & 7) << 1;
+dw y_low_bits = y_offset & 0b111; // low bits
 
-si = ((si & 0xfff8) >> 2) + *(dw*)(raddr(ds,0x92f9));
+dw y_high_bits = y_offset >> 3;
 
-cx = *(dw*)(raddr(ds,si+0x89f8));
+dw y_high = *(dw*)(raddr(ds,0x89f8 + page_offset + y_high_bits*2));
 
-bx = *(dw*)(raddr(ds,bx+0x8e58));
+dw y_low = *(dw*)(raddr(ds,0x8e58 + y_low_bits*2));
 
-bx = bx + cx;
-
-ax = *(dw*)(raddr(ds,0x44)) + *(dw*)(raddr(ds,0x39e));
-if (ax > *(dw*)(raddr(ds,0x25a4))) {
-  ax = *(dw*)(raddr(ds,0x44)) - *(dw*)(raddr(ds,0x39e));
+dw x_offset = x_disp_offset + x_some_offset;
+if (x_offset > x_level_size) {
+  x_offset = x_disp_offset - x_some_offset;
 }
 
-cx = (3 & ax) << 1;
+db x_low_bits = x_offset & 0b11;
 
-ax = ax >> 2;
+dw x_high_bits = x_offset >> 2;
 
-bx = bx + ax + 8;
+dw offset = y_low + y_high + x_high_bits + 8;
 
+bx = offset;
+
+printf("set displ mem %x %x %x %x %x %x %x %x %x %x\n",
+		x_disp_offset,
+		y_disp_offset,
+		x_some_offset,
+		y_some_offset,
+		x_level_size,
+		y_level_size,
+		y_low_bits,
+	    y_high_bits,
+	    page_offset,
+	    offset);
 //screen_offset = bx;
+ myDrawInfo->myOffset = bx;
 cs=0x1a2;eip=0x0067cb; 	X(PUSHF);	// 15462 pushf ;~ 01A2:67CB
 cs=0x1a2;eip=0x0067cc; 	T(CLI);	// 15463 cli ;~ 01A2:67CC
 cs=0x1a2;eip=0x0067cd; 	T(MOV(dx, 0x3D4));	// 15464 mov     dx, 3D4h ;~ 01A2:67CD
@@ -127,19 +115,14 @@ cs=0x1a2;eip=0x0067d9; 	R(OUT(dx, ax));	// 15471 out     dx, ax          ; Video
 cs=0x1a2;eip=0x0067da; 	X(POPF);	// 15473 popf ;~ 01A2:67DA
 //==
 
-//cs=0x1a2;eip=0x0067db; 	X(MOV(, cl));	// 15474 mov     ds:92EEh, cl ;~ 01A2:67DB
-*(raddr(ds,0x92EE)) = cl;
+*(raddr(ds,0x92EE)) = x_low_bits * 2;
 
 cs=0x1a2;eip=0x0067df; 	X(POP(cx));	// 15475 pop     cx ;~ 01A2:67DF
-cs=0x1a2;eip=0x0067e0; 	X(MOV(*(dw*)(raddr(ds,0x0A39C)), 1));	// 15476 mov     word ptr ds:0A39Ch, 1 ;~ 01A2:67E0
-cs=0x1a2;eip=0x0067e6; 	T(MOV(ax, *(dw*)(raddr(ds,0x44))));	// 15477 mov     ax, ds:44h ;~ 01A2:67E6
-cs=0x1a2;eip=0x0067e9; 	X(MOV(*(dw*)(raddr(ds,0x257B)), ax));	// 15478 mov     ds:257Bh, ax ;~ 01A2:67E9
-cs=0x1a2;eip=0x0067ec; 	T(MOV(ax, *(dw*)(raddr(ds,0x46))));	// 15479 mov     ax, ds:46h ;~ 01A2:67EC
-cs=0x1a2;eip=0x0067ef; 	X(MOV(*(dw*)(raddr(ds,0x257D)), ax));	// 15480 mov     ds:257Dh, ax ;~ 01A2:67EF
-cs=0x1a2;eip=0x0067f2; 	T(MOV(ax, *(dw*)(raddr(ds,0x257F))));	// 15481 mov     ax, ds:257Fh ;~ 01A2:67F2
-cs=0x1a2;eip=0x0067f5; 	X(MOV(*(dw*)(raddr(ds,0x92EF)), ax));	// 15482 mov     ds:92EFh, ax ;~ 01A2:67F5
-cs=0x1a2;eip=0x0067f8; 	T(MOV(ax, *(dw*)(raddr(ds,0x2581))));	// 15483 mov     ax, ds:2581h ;~ 01A2:67F8
-cs=0x1a2;eip=0x0067fb; 	X(MOV(*(dw*)(raddr(ds,0x92F1)), ax));	// 15484 mov     ds:92F1h, ax ;~ 01A2:67FB
+ *(dw*)(raddr(ds,0x0A39C)) = 1;
+ *(dw*)(raddr(ds,0x257B)) = x_disp_offset;
+ *(dw*)(raddr(ds,0x257D)) = y_disp_offset;
+ *(dw*)(raddr(ds,0x92EF)) = *(dw*)(raddr(ds,0x257F));
+ *(dw*)(raddr(ds,0x92F1)) = *(dw*)(raddr(ds,0x2581));
 // trace_instructions = false; trace_instructions_to_stdout = false;
 cs=0x1a2;eip=0x0067fe; 	J(RETN(0));	// 15485 retn ;~ 01A2:67FE
  return true;
