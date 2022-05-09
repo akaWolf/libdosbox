@@ -13921,7 +13921,10 @@ cs=0x1a2;eip=0x00685e; 	T(MOV(cx, 0x8000));	// 15574 mov     cx, 8000h ;~ 01A2:6
 cs=0x1a2;eip=0x006861; 	T(MOV(ax, 0));	// 15575 mov     ax, 0 ;~ 01A2:6861
 cs=0x1a2;eip=0x006864; 	T(MOV(di, 0));	// 15576 mov     di, 0 ;~ 01A2:6864
 	// 15577 rep stosw ;~ 01A2:6867
-//cs=0x1a2;eip=0x006867; 	X(	REP STOSW);	// 15577 rep stosw ;~ 01A2:6867
+cs=0x1a2;eip=0x006867; 	X(	REP STOSW);	// 15577 rep stosw ;~ 01A2:6867
+ for (int i = 0; i < 0x8000; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, i, (dw)0);
 cs=0x1a2;eip=0x006869; 	X(MOV(*(raddr(ds,0x92FF)), 1));	// 15578 mov     byte ptr ds:92FFh, 1 ;~ 01A2:6869
 cs=0x1a2;eip=0x00686e; 	J(RETN(0));	// 15579 retn ;~ 01A2:686E
 sub_1686f:
@@ -13950,7 +13953,10 @@ cs=0x1a2;eip=0x00688c; 	T(MOV(cx, 0x8000));	// 15611 mov     cx, 8000h ;~ 01A2:6
 cs=0x1a2;eip=0x00688f; 	T(MOV(ax, 0));	// 15612 mov     ax, 0 ;~ 01A2:688F
 cs=0x1a2;eip=0x006892; 	T(MOV(di, 0));	// 15613 mov     di, 0 ;~ 01A2:6892
 	// 15614 rep stosw ;~ 01A2:6895
-//cs=0x1a2;eip=0x006895; 	X(	REP STOSW);	// 15614 rep stosw ;~ 01A2:6895
+cs=0x1a2;eip=0x006895; 	X(	REP STOSW);	// 15614 rep stosw ;~ 01A2:6895
+ for (int i = 0; i < 0x8000; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, i, (dw)0);
 cs=0x1a2;eip=0x006897; 	J(RETN(0));	// 15615 retn ;~ 01A2:6897
 seg000_6898_proc:
 	// 15619
