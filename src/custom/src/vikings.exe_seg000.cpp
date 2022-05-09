@@ -66,6 +66,108 @@ void setPalette(uint8_t color, uint8_t r, uint8_t g, uint8_t b)
 }
 
 
+bool draw_inventory_item()
+{
+    X86_REGREF
+	m2c::_STATE *_state;
+	//sub_1183d:
+//cs=0x1a2;eip=0x00183c; 	J(RETN(0));	// 3208 retn ;~ 01A2:183C
+	// 3215
+cs=0x1a2;eip=0x00183d; 	X(PUSH(si));	// 3217 push    si ;~ 01A2:183D
+ret_1a2_183e:
+	// 4635
+cs=0x1a2;eip=0x00183e; 	X(PUSH(di));	// 3218 push    di ;~ 01A2:183E
+cs=0x1a2;eip=0x00183f; 	T(CMP(di, 0x18));	// 3219 cmp     di, 18h ;~ 01A2:183F
+cs=0x1a2;eip=0x001842; 	J(JNZ(loc_1184c));	// 3220 jnz     short loc_1184C ;~ 01A2:1842
+cs=0x1a2;eip=0x001844; 	T(CMP(ax, 0));	// 3221 cmp     ax, 0 ;~ 01A2:1844
+cs=0x1a2;eip=0x001847; 	J(JNZ(loc_1184c));	// 3222 jnz     short loc_1184C ;~ 01A2:1847
+cs=0x1a2;eip=0x001849; 	T(MOV(ax, 0x17));	// 3223 mov     ax, 17h ;~ 01A2:1849
+loc_1184c:
+	// 4636
+cs=0x1a2;eip=0x00184c; 	T(SHL(ax, 8));	// 3227 shl     ax, 8 ;~ 01A2:184C
+cs=0x1a2;eip=0x00184f; 	T(MOV(si, 0x507D));	// 3228 mov     si, 507Dh ;~ 01A2:184F
+cs=0x1a2;eip=0x001852; 	T(ADD(si, ax));	// 3229 add     si, ax ;~ 01A2:1852
+cs=0x1a2;eip=0x001854; 	T(MOV(di, *(dw*)(raddr(ds,di-0x7A9E))));	// 3230 mov     di, [di-7A9Eh] ;~ 01A2:1854
+cs=0x1a2;eip=0x001858; 	X(PUSH(di));	// 3231 push    di ;~ 01A2:1858
+cs=0x1a2;eip=0x001859; 	X(PUSH(di));	// 3232 push    di ;~ 01A2:1859
+cs=0x1a2;eip=0x00185a; 	X(PUSH(di));	// 3233 push    di ;~ 01A2:185A
+cs=0x1a2;eip=0x00185b; 	T(MOV(ax, 0x0A000));	// 3234 mov     ax, 0A000h ;~ 01A2:185B
+cs=0x1a2;eip=0x00185e; 	T(MOV(es, ax));	// 3235 mov     es, ax ;~ 01A2:185E
+cs=0x1a2;eip=0x001860; 	T(MOV(dx, 0x3C4));	// 3236 mov     dx, 3C4h ;~ 01A2:1860
+cs=0x1a2;eip=0x001863; 	T(MOV(ax, 0x802));	// 3237 mov     ax, 802h ;~ 01A2:1863
+cs=0x1a2;eip=0x001866; 	R(OUT(dx, ax));	// 3238 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:1866
+cs=0x1a2;eip=0x001867; 	T(MOV(cx, 0x10));	// 3240 mov     cx, 10h ;~ 01A2:1867
+//assert(0);
+ for (int i = 0; i < 0x10; i++) {
+   drawPixel(3, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
+   drawPixel(3, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
+   }
+loc_1186a:
+	// 4637
+cs=0x1a2;eip=0x00186a; 	X(MOVSW);	// 3243 movsw ;~ 01A2:186A
+cs=0x1a2;eip=0x00186b; 	X(MOVSW);	// 3244 movsw ;~ 01A2:186B
+cs=0x1a2;eip=0x00186c; 	T(ADD(di, 0x52));	// 3245 add     di, 52h ; 'R' ;~ 01A2:186C
+cs=0x1a2;eip=0x00186f; 	J(LOOP(loc_1186a));	// 3246 loop    loc_1186A ;~ 01A2:186F
+cs=0x1a2;eip=0x001871; 	T(MOV(dx, 0x3C4));	// 3247 mov     dx, 3C4h ;~ 01A2:1871
+cs=0x1a2;eip=0x001874; 	T(MOV(ax, 0x102));	// 3248 mov     ax, 102h ;~ 01A2:1874
+cs=0x1a2;eip=0x001877; 	R(OUT(dx, ax));	// 3249 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:1877
+cs=0x1a2;eip=0x001878; 	T(MOV(cx, 0x10));	// 3251 mov     cx, 10h ;~ 01A2:1878
+cs=0x1a2;eip=0x00187b; 	X(POP(di));	// 3252 pop     di ;~ 01A2:187B
+cs=0x1a2;eip=0x00187c; 	T(INC(di));	// 3253 inc     di ;~ 01A2:187C
+//assert(0);
+ for (int i = 0; i < 0x10; i++) {
+   drawPixel(0, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
+   drawPixel(0, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
+   }
+loc_1187d:
+	// 4638
+cs=0x1a2;eip=0x00187d; 	X(MOVSW);	// 3256 movsw ;~ 01A2:187D
+cs=0x1a2;eip=0x00187e; 	X(MOVSW);	// 3257 movsw ;~ 01A2:187E
+cs=0x1a2;eip=0x00187f; 	T(ADD(di, 0x52));	// 3258 add     di, 52h ; 'R' ;~ 01A2:187F
+cs=0x1a2;eip=0x001882; 	J(LOOP(loc_1187d));	// 3259 loop    loc_1187D ;~ 01A2:1882
+cs=0x1a2;eip=0x001884; 	T(MOV(dx, 0x3C4));	// 3260 mov     dx, 3C4h ;~ 01A2:1884
+cs=0x1a2;eip=0x001887; 	T(MOV(ax, 0x202));	// 3261 mov     ax, 202h ;~ 01A2:1887
+cs=0x1a2;eip=0x00188a; 	R(OUT(dx, ax));	// 3262 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:188A
+cs=0x1a2;eip=0x00188b; 	T(MOV(cx, 0x10));	// 3264 mov     cx, 10h ;~ 01A2:188B
+cs=0x1a2;eip=0x00188e; 	X(POP(di));	// 3265 pop     di ;~ 01A2:188E
+cs=0x1a2;eip=0x00188f; 	T(INC(di));	// 3266 inc     di ;~ 01A2:188F
+//assert(0);
+ for (int i = 0; i < 0x10; i++) {
+   drawPixel(1, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
+   drawPixel(1, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
+   }
+loc_11890:
+	// 4639
+cs=0x1a2;eip=0x001890; 	X(MOVSW);	// 3269 movsw ;~ 01A2:1890
+cs=0x1a2;eip=0x001891; 	X(MOVSW);	// 3270 movsw ;~ 01A2:1891
+cs=0x1a2;eip=0x001892; 	T(ADD(di, 0x52));	// 3271 add     di, 52h ; 'R' ;~ 01A2:1892
+cs=0x1a2;eip=0x001895; 	J(LOOP(loc_11890));	// 3272 loop    loc_11890 ;~ 01A2:1895
+cs=0x1a2;eip=0x001897; 	T(MOV(dx, 0x3C4));	// 3273 mov     dx, 3C4h ;~ 01A2:1897
+cs=0x1a2;eip=0x00189a; 	T(MOV(ax, 0x402));	// 3274 mov     ax, 402h ;~ 01A2:189A
+cs=0x1a2;eip=0x00189d; 	R(OUT(dx, ax));	// 3275 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:189D
+cs=0x1a2;eip=0x00189e; 	T(MOV(cx, 0x10));	// 3277 mov     cx, 10h ;~ 01A2:189E
+cs=0x1a2;eip=0x0018a1; 	X(POP(di));	// 3278 pop     di ;~ 01A2:18A1
+cs=0x1a2;eip=0x0018a2; 	T(INC(di));	// 3279 inc     di ;~ 01A2:18A2
+//assert(0);
+ for (int i = 0; i < 0x10; i++) {
+   drawPixel(2, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
+   drawPixel(2, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
+   }
+loc_118a3:
+	// 4640
+cs=0x1a2;eip=0x0018a3; 	X(MOVSW);	// 3282 movsw ;~ 01A2:18A3
+cs=0x1a2;eip=0x0018a4; 	X(MOVSW);	// 3283 movsw ;~ 01A2:18A4
+cs=0x1a2;eip=0x0018a5; 	T(ADD(di, 0x52));	// 3284 add     di, 52h ; 'R' ;~ 01A2:18A5
+cs=0x1a2;eip=0x0018a8; 	J(LOOP(loc_118a3));	// 3285 loop    loc_118A3 ;~ 01A2:18A8
+cs=0x1a2;eip=0x0018aa; 	X(POP(di));	// 3286 pop     di ;~ 01A2:18AA
+cs=0x1a2;eip=0x0018ab; 	X(POP(si));	// 3287 pop     si ;~ 01A2:18AB
+cs=0x1a2;eip=0x0018ac; 	J(RETN(0));	// 3288 retn ;~ 01A2:18AC
+ return true;
+//=============
+ __dispatch_call:
+ assert(0);
+}
+
 bool set_display_memory_addr()
 {
   X86_REGREF
@@ -3020,78 +3122,6 @@ cs=0x1a2;eip=0x001836; 	X(MOVSW);	// 3205 movsw ;~ 01A2:1836
 cs=0x1a2;eip=0x001837; 	T(ADD(di, 0x4E));	// 3206 add     di, 4Eh ; 'N' ;~ 01A2:1837
 cs=0x1a2;eip=0x00183a; 	J(LOOP(loc_11833));	// 3207 loop    loc_11833 ;~ 01A2:183A
 cs=0x1a2;eip=0x00183c; 	J(RETN(0));	// 3208 retn ;~ 01A2:183C
-sub_1183d:
-cs=0x1a2;eip=0x00183c; 	J(RETN(0));	// 3208 retn ;~ 01A2:183C
-	// 3215
-cs=0x1a2;eip=0x00183d; 	X(PUSH(si));	// 3217 push    si ;~ 01A2:183D
-ret_1a2_183e:
-	// 4635
-cs=0x1a2;eip=0x00183e; 	X(PUSH(di));	// 3218 push    di ;~ 01A2:183E
-cs=0x1a2;eip=0x00183f; 	T(CMP(di, 0x18));	// 3219 cmp     di, 18h ;~ 01A2:183F
-cs=0x1a2;eip=0x001842; 	J(JNZ(loc_1184c));	// 3220 jnz     short loc_1184C ;~ 01A2:1842
-cs=0x1a2;eip=0x001844; 	T(CMP(ax, 0));	// 3221 cmp     ax, 0 ;~ 01A2:1844
-cs=0x1a2;eip=0x001847; 	J(JNZ(loc_1184c));	// 3222 jnz     short loc_1184C ;~ 01A2:1847
-cs=0x1a2;eip=0x001849; 	T(MOV(ax, 0x17));	// 3223 mov     ax, 17h ;~ 01A2:1849
-loc_1184c:
-	// 4636
-cs=0x1a2;eip=0x00184c; 	T(SHL(ax, 8));	// 3227 shl     ax, 8 ;~ 01A2:184C
-cs=0x1a2;eip=0x00184f; 	T(MOV(si, 0x507D));	// 3228 mov     si, 507Dh ;~ 01A2:184F
-cs=0x1a2;eip=0x001852; 	T(ADD(si, ax));	// 3229 add     si, ax ;~ 01A2:1852
-cs=0x1a2;eip=0x001854; 	T(MOV(di, *(dw*)(raddr(ds,di-0x7A9E))));	// 3230 mov     di, [di-7A9Eh] ;~ 01A2:1854
-cs=0x1a2;eip=0x001858; 	X(PUSH(di));	// 3231 push    di ;~ 01A2:1858
-cs=0x1a2;eip=0x001859; 	X(PUSH(di));	// 3232 push    di ;~ 01A2:1859
-cs=0x1a2;eip=0x00185a; 	X(PUSH(di));	// 3233 push    di ;~ 01A2:185A
-cs=0x1a2;eip=0x00185b; 	T(MOV(ax, 0x0A000));	// 3234 mov     ax, 0A000h ;~ 01A2:185B
-cs=0x1a2;eip=0x00185e; 	T(MOV(es, ax));	// 3235 mov     es, ax ;~ 01A2:185E
-cs=0x1a2;eip=0x001860; 	T(MOV(dx, 0x3C4));	// 3236 mov     dx, 3C4h ;~ 01A2:1860
-cs=0x1a2;eip=0x001863; 	T(MOV(ax, 0x802));	// 3237 mov     ax, 802h ;~ 01A2:1863
-cs=0x1a2;eip=0x001866; 	R(OUT(dx, ax));	// 3238 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:1866
-cs=0x1a2;eip=0x001867; 	T(MOV(cx, 0x10));	// 3240 mov     cx, 10h ;~ 01A2:1867
-loc_1186a:
-	// 4637
-cs=0x1a2;eip=0x00186a; 	X(MOVSW);	// 3243 movsw ;~ 01A2:186A
-cs=0x1a2;eip=0x00186b; 	X(MOVSW);	// 3244 movsw ;~ 01A2:186B
-cs=0x1a2;eip=0x00186c; 	T(ADD(di, 0x52));	// 3245 add     di, 52h ; 'R' ;~ 01A2:186C
-cs=0x1a2;eip=0x00186f; 	J(LOOP(loc_1186a));	// 3246 loop    loc_1186A ;~ 01A2:186F
-cs=0x1a2;eip=0x001871; 	T(MOV(dx, 0x3C4));	// 3247 mov     dx, 3C4h ;~ 01A2:1871
-cs=0x1a2;eip=0x001874; 	T(MOV(ax, 0x102));	// 3248 mov     ax, 102h ;~ 01A2:1874
-cs=0x1a2;eip=0x001877; 	R(OUT(dx, ax));	// 3249 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:1877
-cs=0x1a2;eip=0x001878; 	T(MOV(cx, 0x10));	// 3251 mov     cx, 10h ;~ 01A2:1878
-cs=0x1a2;eip=0x00187b; 	X(POP(di));	// 3252 pop     di ;~ 01A2:187B
-cs=0x1a2;eip=0x00187c; 	T(INC(di));	// 3253 inc     di ;~ 01A2:187C
-loc_1187d:
-	// 4638
-cs=0x1a2;eip=0x00187d; 	X(MOVSW);	// 3256 movsw ;~ 01A2:187D
-cs=0x1a2;eip=0x00187e; 	X(MOVSW);	// 3257 movsw ;~ 01A2:187E
-cs=0x1a2;eip=0x00187f; 	T(ADD(di, 0x52));	// 3258 add     di, 52h ; 'R' ;~ 01A2:187F
-cs=0x1a2;eip=0x001882; 	J(LOOP(loc_1187d));	// 3259 loop    loc_1187D ;~ 01A2:1882
-cs=0x1a2;eip=0x001884; 	T(MOV(dx, 0x3C4));	// 3260 mov     dx, 3C4h ;~ 01A2:1884
-cs=0x1a2;eip=0x001887; 	T(MOV(ax, 0x202));	// 3261 mov     ax, 202h ;~ 01A2:1887
-cs=0x1a2;eip=0x00188a; 	R(OUT(dx, ax));	// 3262 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:188A
-cs=0x1a2;eip=0x00188b; 	T(MOV(cx, 0x10));	// 3264 mov     cx, 10h ;~ 01A2:188B
-cs=0x1a2;eip=0x00188e; 	X(POP(di));	// 3265 pop     di ;~ 01A2:188E
-cs=0x1a2;eip=0x00188f; 	T(INC(di));	// 3266 inc     di ;~ 01A2:188F
-loc_11890:
-	// 4639
-cs=0x1a2;eip=0x001890; 	X(MOVSW);	// 3269 movsw ;~ 01A2:1890
-cs=0x1a2;eip=0x001891; 	X(MOVSW);	// 3270 movsw ;~ 01A2:1891
-cs=0x1a2;eip=0x001892; 	T(ADD(di, 0x52));	// 3271 add     di, 52h ; 'R' ;~ 01A2:1892
-cs=0x1a2;eip=0x001895; 	J(LOOP(loc_11890));	// 3272 loop    loc_11890 ;~ 01A2:1895
-cs=0x1a2;eip=0x001897; 	T(MOV(dx, 0x3C4));	// 3273 mov     dx, 3C4h ;~ 01A2:1897
-cs=0x1a2;eip=0x00189a; 	T(MOV(ax, 0x402));	// 3274 mov     ax, 402h ;~ 01A2:189A
-cs=0x1a2;eip=0x00189d; 	R(OUT(dx, ax));	// 3275 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:189D
-cs=0x1a2;eip=0x00189e; 	T(MOV(cx, 0x10));	// 3277 mov     cx, 10h ;~ 01A2:189E
-cs=0x1a2;eip=0x0018a1; 	X(POP(di));	// 3278 pop     di ;~ 01A2:18A1
-cs=0x1a2;eip=0x0018a2; 	T(INC(di));	// 3279 inc     di ;~ 01A2:18A2
-loc_118a3:
-	// 4640
-cs=0x1a2;eip=0x0018a3; 	X(MOVSW);	// 3282 movsw ;~ 01A2:18A3
-cs=0x1a2;eip=0x0018a4; 	X(MOVSW);	// 3283 movsw ;~ 01A2:18A4
-cs=0x1a2;eip=0x0018a5; 	T(ADD(di, 0x52));	// 3284 add     di, 52h ; 'R' ;~ 01A2:18A5
-cs=0x1a2;eip=0x0018a8; 	J(LOOP(loc_118a3));	// 3285 loop    loc_118A3 ;~ 01A2:18A8
-cs=0x1a2;eip=0x0018aa; 	X(POP(di));	// 3286 pop     di ;~ 01A2:18AA
-cs=0x1a2;eip=0x0018ab; 	X(POP(si));	// 3287 pop     si ;~ 01A2:18AB
-cs=0x1a2;eip=0x0018ac; 	J(RETN(0));	// 3288 retn ;~ 01A2:18AC
 sub_118ad:
 cs=0x1a2;eip=0x0018ac; 	J(RETN(0));	// 3288 retn ;~ 01A2:18AC
 	// 3295
@@ -15437,11 +15467,11 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::kloc_1180a: 	goto loc_1180a;
         case m2c::kloc_1181e: 	goto loc_1181e;
         case m2c::kloc_11833: 	goto loc_11833;
-        case m2c::kloc_1184c: 	goto loc_1184c;
-        case m2c::kloc_1186a: 	goto loc_1186a;
-        case m2c::kloc_1187d: 	goto loc_1187d;
-        case m2c::kloc_11890: 	goto loc_11890;
-        case m2c::kloc_118a3: 	goto loc_118a3;
+		  //case m2c::kloc_1184c: 	goto loc_1184c;
+		  //case m2c::kloc_1186a: 	goto loc_1186a;
+		  //case m2c::kloc_1187d: 	goto loc_1187d;
+		  //case m2c::kloc_11890: 	goto loc_11890;
+		  //case m2c::kloc_118a3: 	goto loc_118a3;
         case m2c::kloc_11ac2: 	goto loc_11ac2;
         case m2c::kloc_11ad7: 	goto loc_11ad7;
         case m2c::kloc_11aec: 	goto loc_11aec;
@@ -16348,7 +16378,7 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::kret_1a2_1797: 	goto ret_1a2_1797;
         case m2c::kret_1a2_17b3: 	goto ret_1a2_17b3;
         case m2c::kret_1a2_17d2: 	goto ret_1a2_17d2;
-        case m2c::kret_1a2_183e: 	goto ret_1a2_183e;
+		  //case m2c::kret_1a2_183e: 	goto ret_1a2_183e;
         case m2c::kret_1a2_18ae: 	goto ret_1a2_18ae;
         case m2c::kret_1a2_1aa8: 	goto ret_1a2_1aa8;
         case m2c::kret_1a2_1af: 	goto ret_1a2_1af;
@@ -16847,7 +16877,7 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::ksub_11792: 	goto sub_11792;
         case m2c::ksub_117ad: 	goto sub_117ad;
         case m2c::ksub_117d0: 	goto sub_117d0;
-        case m2c::ksub_1183d: 	goto sub_1183d;
+	case m2c::ksub_1183d: 	return draw_inventory_item();
         case m2c::ksub_118ad: 	goto sub_118ad;
         case m2c::ksub_11aa4: 	goto sub_11aa4;
         case m2c::ksub_11b0b: 	goto sub_11b0b;
