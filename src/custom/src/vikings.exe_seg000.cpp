@@ -996,7 +996,7 @@ cs=0x1a2;eip=0x001867; 	T(MOV(cx, 0x10));	// 3240 mov     cx, 10h ;~ 01A2:1867
  for (int i = 0; i < 0x10; i++) {
    drawPixel(3, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
    drawPixel(3, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
-   }
+ }
 loc_1186a:
 	// 4637
 cs=0x1a2;eip=0x00186a; 	X(MOVSW);	// 3243 movsw ;~ 01A2:186A
@@ -1013,7 +1013,7 @@ cs=0x1a2;eip=0x00187c; 	T(INC(di));	// 3253 inc     di ;~ 01A2:187C
  for (int i = 0; i < 0x10; i++) {
    drawPixel(0, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
    drawPixel(0, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
-   }
+ }
 loc_1187d:
 	// 4638
 cs=0x1a2;eip=0x00187d; 	X(MOVSW);	// 3256 movsw ;~ 01A2:187D
@@ -1030,7 +1030,7 @@ cs=0x1a2;eip=0x00188f; 	T(INC(di));	// 3266 inc     di ;~ 01A2:188F
  for (int i = 0; i < 0x10; i++) {
    drawPixel(1, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
    drawPixel(1, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
-   }
+ }
 loc_11890:
 	// 4639
 cs=0x1a2;eip=0x001890; 	X(MOVSW);	// 3269 movsw ;~ 01A2:1890
@@ -1047,7 +1047,7 @@ cs=0x1a2;eip=0x0018a2; 	T(INC(di));	// 3279 inc     di ;~ 01A2:18A2
  for (int i = 0; i < 0x10; i++) {
    drawPixel(2, di + i * 4 + i * 0x52, *(dw*)(raddr(ds, si + i * 4)));
    drawPixel(2, di + i * 4 + 2 + i * 0x52, *(dw*)(raddr(ds, si + i * 4 + 2)));
-   }
+ }
 loc_118a3:
 	// 4640
 cs=0x1a2;eip=0x0018a3; 	X(MOVSW);	// 3282 movsw ;~ 01A2:18A3
@@ -3972,6 +3972,13 @@ cs=0x1a2;eip=0x0017ec; 	T(MOV(dx, 0x3C4));	// 3152 mov     dx, 3C4h ;~ 01A2:17EC
 cs=0x1a2;eip=0x0017ef; 	T(MOV(ax, 0x202));	// 3153 mov     ax, 202h ;~ 01A2:17EF
 cs=0x1a2;eip=0x0017f2; 	R(OUT(dx, ax));	// 3154 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:17F2
 cs=0x1a2;eip=0x0017f3; 	T(MOV(cx, 0x18));	// 3156 mov     cx, 18h ;~ 01A2:17F3
+ for (int i = 0; i < 0x18; i++)
+ {
+   drawPixel(1, di + i * 0x4e + i * 8 + 0, *(dw*)(raddr(ds, si + i * 8 + 0)));
+   drawPixel(1, di + i * 0x4e + i * 8 + 2, *(dw*)(raddr(ds, si + i * 8 + 2)));
+   drawPixel(1, di + i * 0x4e + i * 8 + 4, *(dw*)(raddr(ds, si + i * 8 + 4)));
+   drawPixel(1, di + i * 0x4e + i * 8 + 6, *(dw*)(raddr(ds, si + i * 8 + 6)));
+ }
 loc_117f6:
 	// 4631
 cs=0x1a2;eip=0x0017f6; 	X(MOVSW);	// 3159 movsw ;~ 01A2:17F6
@@ -3985,6 +3992,13 @@ cs=0x1a2;eip=0x001802; 	T(MOV(ax, 0x402));	// 3166 mov     ax, 402h ;~ 01A2:1802
 cs=0x1a2;eip=0x001805; 	R(OUT(dx, ax));	// 3167 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:1805
 cs=0x1a2;eip=0x001806; 	T(MOV(cx, 0x18));	// 3169 mov     cx, 18h ;~ 01A2:1806
 cs=0x1a2;eip=0x001809; 	X(POP(di));	// 3170 pop     di ;~ 01A2:1809
+ for (int i = 0; i < 0x18; i++)
+ {
+   drawPixel(2, di + i * 0x4e + i * 8 + 0, *(dw*)(raddr(ds, si + i * 8 + 0)));
+   drawPixel(2, di + i * 0x4e + i * 8 + 2, *(dw*)(raddr(ds, si + i * 8 + 2)));
+   drawPixel(2, di + i * 0x4e + i * 8 + 4, *(dw*)(raddr(ds, si + i * 8 + 4)));
+   drawPixel(2, di + i * 0x4e + i * 8 + 6, *(dw*)(raddr(ds, si + i * 8 + 6)));
+ }
 loc_1180a:
 	// 4632
 cs=0x1a2;eip=0x00180a; 	X(MOVSW);	// 3173 movsw ;~ 01A2:180A
@@ -3998,6 +4012,13 @@ cs=0x1a2;eip=0x001816; 	T(MOV(ax, 0x802));	// 3180 mov     ax, 802h ;~ 01A2:1816
 cs=0x1a2;eip=0x001819; 	R(OUT(dx, ax));	// 3181 out     dx, ax          ; EGA: sequencer address reg ;~ 01A2:1819
 cs=0x1a2;eip=0x00181a; 	T(MOV(cx, 0x18));	// 3183 mov     cx, 18h ;~ 01A2:181A
 cs=0x1a2;eip=0x00181d; 	X(POP(di));	// 3184 pop     di ;~ 01A2:181D
+ for (int i = 0; i < 0x18; i++)
+ {
+   drawPixel(3, di + i * 0x4e + i * 8 + 0, *(dw*)(raddr(ds, si + i * 8 + 0)));
+   drawPixel(3, di + i * 0x4e + i * 8 + 2, *(dw*)(raddr(ds, si + i * 8 + 2)));
+   drawPixel(3, di + i * 0x4e + i * 8 + 4, *(dw*)(raddr(ds, si + i * 8 + 4)));
+   drawPixel(3, di + i * 0x4e + i * 8 + 6, *(dw*)(raddr(ds, si + i * 8 + 6)));
+ }
 loc_1181e:
 	// 4633
 cs=0x1a2;eip=0x00181e; 	X(MOVSW);	// 3187 movsw ;~ 01A2:181E
@@ -4012,6 +4033,13 @@ cs=0x1a2;eip=0x00182d; 	R(OUT(dx, ax));	// 3195 out     dx, ax          ; EGA: s
 cs=0x1a2;eip=0x00182e; 	T(MOV(cx, 0x18));	// 3197 mov     cx, 18h ;~ 01A2:182E
 cs=0x1a2;eip=0x001831; 	X(POP(di));	// 3198 pop     di ;~ 01A2:1831
 cs=0x1a2;eip=0x001832; 	T(INC(di));	// 3199 inc     di ;~ 01A2:1832
+ for (int i = 0; i < 0x18; i++)
+ {
+   drawPixel(0, di + i * 0x4e + i * 8 + 0, *(dw*)(raddr(ds, si + i * 8 + 0)));
+   drawPixel(0, di + i * 0x4e + i * 8 + 2, *(dw*)(raddr(ds, si + i * 8 + 2)));
+   drawPixel(0, di + i * 0x4e + i * 8 + 4, *(dw*)(raddr(ds, si + i * 8 + 4)));
+   drawPixel(0, di + i * 0x4e + i * 8 + 6, *(dw*)(raddr(ds, si + i * 8 + 6)));
+ }
 loc_11833:
 	// 4634
 cs=0x1a2;eip=0x001833; 	X(MOVSW);	// 3202 movsw ;~ 01A2:1833
@@ -4301,9 +4329,9 @@ cs=0x1a2;eip=0x001cb7; 	J(CALL(sub_118ad,0));	// 3707 call    sub_118AD ;~ 01A2:
 locret_11cba:
 	// 4667
 cs=0x1a2;eip=0x001cba; 	J(RETN(0));	// 3711 retn ;~ 01A2:1CBA
-sub_11cbb:
+sub_11cbb: // select logic
 	// 3718
-cs=0x1a2;eip=0x001cba; 	J(RETN(0));	// 3711 retn ;~ 01A2:1CBA
+//cs=0x1a2;eip=0x001cba; 	J(RETN(0));	// 3711 retn ;~ 01A2:1CBA //debug
 cs=0x1a2;eip=0x001cbb; 	T(CMP(word_28927, 0));	// 3719 cmp     word_28927, 0 ;~ 01A2:1CBB
 ret_1a2_1cc0:
 	// 4668
@@ -4322,6 +4350,7 @@ cs=0x1a2;eip=0x001cda; 	J(JZ(loc_11d11));	// 3733 jz      short loc_11D11 ;~ 01A
 cs=0x1a2;eip=0x001cdc; 	T(MOV(di, word_28923));	// 3734 mov     di, word_28923 ;~ 01A2:1CDC
 cs=0x1a2;eip=0x001ce0; 	T(SHL(di, 1));	// 3735 shl     di, 1 ;~ 01A2:1CE0
 cs=0x1a2;eip=0x001ce2; 	T(MOV(ax, 0));	// 3736 mov     ax, 0 ;~ 01A2:1CE2
+ printf("sub_11cbb: 1\n"); // move item back to user
 cs=0x1a2;eip=0x001ce5; 	J(CALL(sub_1183d,0));	// 3737 call    sub_1183D ;~ 01A2:1CE5
 cs=0x1a2;eip=0x001ce8; 	X(MOV(word_28925, 0x11));	// 3738 mov     word_28925, 11h ;~ 01A2:1CE8
 cs=0x1a2;eip=0x001cee; 	T(MOV(di, word_28923));	// 3739 mov     di, word_28923 ;~ 01A2:1CEE
@@ -4351,6 +4380,7 @@ cs=0x1a2;eip=0x001d17; 	J(JZ(loc_11d51));	// 3766 jz      short loc_11D51 ;~ 01A
 cs=0x1a2;eip=0x001d19; 	T(MOV(di, word_28923));	// 3767 mov     di, word_28923 ;~ 01A2:1D19
 cs=0x1a2;eip=0x001d1d; 	T(SHL(di, 1));	// 3768 shl     di, 1 ;~ 01A2:1D1D
 cs=0x1a2;eip=0x001d1f; 	T(MOV(ax, 0));	// 3769 mov     ax, 0 ;~ 01A2:1D1F
+ printf("sub_11cbb: 2\n"); // move item to trash/player
 cs=0x1a2;eip=0x001d22; 	J(CALL(sub_1183d,0));	// 3770 call    sub_1183D ;~ 01A2:1D22
 cs=0x1a2;eip=0x001d25; 	X(MOV(word_28925, 0x11));	// 3771 mov     word_28925, 11h ;~ 01A2:1D25
 cs=0x1a2;eip=0x001d2b; 	T(MOV(di, word_28923));	// 3772 mov     di, word_28923 ;~ 01A2:1D2B
@@ -4378,12 +4408,14 @@ loc_11d51:
 	// 4678
 cs=0x1a2;eip=0x001d51; 	T(TEST(word_28898, 0x8000));	// 3799 test    word_28898, 8000h ;~ 01A2:1D51
 cs=0x1a2;eip=0x001d57; 	J(JZ(loc_11d5e));	// 3800 jz      short loc_11D5E ;~ 01A2:1D57
+ printf("sub_11cbb: 3\n"); // drop selection of current item
 cs=0x1a2;eip=0x001d59; 	J(CALL(sub_11f93,0));	// 3801 call    sub_11F93 ;~ 01A2:1D59
 cs=0x1a2;eip=0x001d5c; 	J(JMP(loc_11d6d));	// 3802 jmp     short loc_11D6D ;~ 01A2:1D5C
 loc_11d5e:
 	// 4679
 cs=0x1a2;eip=0x001d5e; 	T(TEST(word_28898, 0x2000));	// 3806 test    word_28898, 2000h ;~ 01A2:1D5E
 cs=0x1a2;eip=0x001d64; 	J(JZ(loc_11d6d));	// 3807 jz      short loc_11D6D ;~ 01A2:1D64
+ printf("sub_11cbb: 4\n"); // exit when selected
 cs=0x1a2;eip=0x001d66; 	J(CALL(sub_11f93,0));	// 3808 call    sub_11F93 ;~ 01A2:1D66
 cs=0x1a2;eip=0x001d69; 	J(JC(loc_11d6d));	// 3809 jb      short loc_11D6D ;~ 01A2:1D69
 cs=0x1a2;eip=0x001d6b; 	T(STC);	// 3810 stc ;~ 01A2:1D6B
@@ -4614,6 +4646,7 @@ cs=0x1a2;eip=0x001fb1; 	T(MOV(ax, 4));	// 4056 mov     ax, 4 ;~ 01A2:1FB1
 cs=0x1a2;eip=0x001fb4; 	J(CALL(sub_177bb,0));	// 4057 call    sub_177BB ;~ 01A2:1FB4
 cs=0x1a2;eip=0x001fb7; 	T(MOV(di, 0x18));	// 4058 mov     di, 18h ;~ 01A2:1FB7
 cs=0x1a2;eip=0x001fba; 	T(MOV(ax, 0x17));	// 4059 mov     ax, 17h ;~ 01A2:1FBA
+// printf("")
 cs=0x1a2;eip=0x001fbd; 	J(CALL(sub_1183d,0));	// 4060 call    sub_1183D ;~ 01A2:1FBD
 cs=0x1a2;eip=0x001fc0; 	J(JMP(loc_11ffb));	// 4061 jmp     short loc_11FFB ;~ 01A2:1FC0
 loc_11fc2:
@@ -4742,8 +4775,8 @@ cs=0x1a2;eip=0x0020f6; 	T(ADD(di, 8));	// 4200 add     di, 8 ;~ 01A2:20F6
 cs=0x1a2;eip=0x0020f9; 	T(SHL(di, 1));	// 4201 shl     di, 1 ;~ 01A2:20F9
 cs=0x1a2;eip=0x0020fb; 	J(CALL(sub_118ad,0));	// 4202 call    sub_118AD ;~ 01A2:20FB
 cs=0x1a2;eip=0x0020fe; 	J(RETN(0));	// 4203 retn ;~ 01A2:20FE
-sub_120ff:
-cs=0x1a2;eip=0x0020fe; 	J(RETN(0));	// 4203 retn ;~ 01A2:20FE
+sub_120ff: // draw active viking icon
+//cs=0x1a2;eip=0x0020fe; 	J(RETN(0));	// 4203 retn ;~ 01A2:20FE //debug
 	// 4210
 cs=0x1a2;eip=0x0020ff; 	T(MOV(ax, word_28915));	// 4211 mov     ax, word_28915 ;~ 01A2:20FF
 ret_1a2_2102:
@@ -8898,7 +8931,7 @@ cs=0x1a2;eip=0x004392; 	T(ADD(bx, 3));	// 9028 add     bx, 3 ;~ 01A2:4392
 cs=0x1a2;eip=0x004395; 	J(RETN(0));	// 9029 retn ;~ 01A2:4395
 loc_14396:
 //cs=0x1a2;eip=0x004395; 	J(RETN(0));	// 9029 retn ;~ 01A2:4395
- goto mylabel;
+// goto mylabel; // redraw screen for text menu
 	// 5154
 cs=0x1a2;eip=0x004396; 	X(PUSH(ds));	// 9033 push    ds ;~ 01A2:4396
 cs=0x1a2;eip=0x004397; 	X(PUSH(es));	// 9034 push    es ;~ 01A2:4397
@@ -8914,11 +8947,17 @@ cs=0x1a2;eip=0x0043ab; 	T(MOV(es, ax));	// 9047 mov     es, ax ;~ 01A2:43AB
 cs=0x1a2;eip=0x0043ad; 	T(MOV(si, 0));	// 9049 mov     si, 0 ;~ 01A2:43AD
 cs=0x1a2;eip=0x0043b0; 	T(MOV(di, 0x2ADC));	// 9050 mov     di, 2ADCh ;~ 01A2:43B0
 cs=0x1a2;eip=0x0043b3; 	T(MOV(cx, 0x1600));	// 9051 mov     cx, 1600h ;~ 01A2:43B3
+ for (int i = 0; i < 0x1600; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, di + i, getPixel(j, si + i));
 	// 9052 rep movsb ;~ 01A2:43B6
 cs=0x1a2;eip=0x0043b6; 	X(	REP MOVSB);	// 9052 rep movsb ;~ 01A2:43B6
 cs=0x1a2;eip=0x0043b8; 	T(MOV(si, 0));	// 9053 mov     si, 0 ;~ 01A2:43B8
 cs=0x1a2;eip=0x0043bb; 	T(MOV(di, 0x70BC));	// 9054 mov     di, 70BCh ;~ 01A2:43BB
 cs=0x1a2;eip=0x0043be; 	T(MOV(cx, 0x1600));	// 9055 mov     cx, 1600h ;~ 01A2:43BE
+ for (int i = 0; i < 0x1600; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, di + i, getPixel(j, si + i));
 	// 9056 rep movsb ;~ 01A2:43C1
 cs=0x1a2;eip=0x0043c1; 	X(	REP MOVSB);	// 9056 rep movsb ;~ 01A2:43C1
 cs=0x1a2;eip=0x0043c3; 	T(MOV(dx, 0x3CE));	// 9057 mov     dx, 3CEh ;~ 01A2:43C3
@@ -8927,14 +8966,23 @@ cs=0x1a2;eip=0x0043c9; 	R(OUT(dx, ax));	// 9059 out     dx, ax          ; EGA: g
 cs=0x1a2;eip=0x0043ca; 	T(MOV(ax, 0));	// 9061 mov     ax, 0 ;~ 01A2:43CA
 cs=0x1a2;eip=0x0043cd; 	T(MOV(di, 0));	// 9062 mov     di, 0 ;~ 01A2:43CD
 cs=0x1a2;eip=0x0043d0; 	T(MOV(cx, 0x2ADC));	// 9063 mov     cx, 2ADCh ;~ 01A2:43D0
+ for (int i = 0; i < 0x2ADC; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, di + i, (db)0);
 	// 9064 rep stosb ;~ 01A2:43D3
 cs=0x1a2;eip=0x0043d3; 	X(	REP STOSB);	// 9064 rep stosb ;~ 01A2:43D3
 cs=0x1a2;eip=0x0043d5; 	T(MOV(di, 0x40DC));	// 9065 mov     di, 40DCh ;~ 01A2:43D5
 cs=0x1a2;eip=0x0043d8; 	T(MOV(cx, 0x2FE0));	// 9066 mov     cx, 2FE0h ;~ 01A2:43D8
+ for (int i = 0; i < 0x2FE0; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, di + i, (db)0);
 	// 9067 rep stosb ;~ 01A2:43DB
 cs=0x1a2;eip=0x0043db; 	X(	REP STOSB);	// 9067 rep stosb ;~ 01A2:43DB
 cs=0x1a2;eip=0x0043dd; 	T(MOV(di, 0x86BC));	// 9068 mov     di, 86BCh ;~ 01A2:43DD
 cs=0x1a2;eip=0x0043e0; 	T(MOV(cx, 0x7000));	// 9069 mov     cx, 7000h ;~ 01A2:43E0
+ for (int i = 0; i < 0x7000; i++)
+   for (int j = 0; j < 4; j++)
+	 drawPixel(j, di + i, (db)0);
 	// 9070 rep stosb ;~ 01A2:43E3
 cs=0x1a2;eip=0x0043e3; 	X(	REP STOSB);	// 9070 rep stosb ;~ 01A2:43E3
 cs=0x1a2;eip=0x0043e5; 	X(POP(es));	// 9071 pop     es ;~ 01A2:43E5
