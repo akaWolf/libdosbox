@@ -14,7 +14,6 @@ SDL_Window* myWindow = NULL;
 SDL_Renderer* myRenderer = NULL;
 SDL_Texture* myTexture = NULL;
 SDL_PixelFormat *myFormat = NULL;
-//uint32_t myOffset = 0x20c8 * 4;//0x66a8 * 4;
 unsigned int plane4_to_linear(unsigned int plane, unsigned int offset)
 {
   return offset * 4 + plane;
@@ -39,11 +38,21 @@ void setPalette(uint8_t color, uint8_t r, uint8_t g, uint8_t b)
 }
 void updateDraw()
  {
-  for (int i = 0; i < sizeof(tempDrawBuffer)/4; i++)
+  for (int i = 0; i < 176 * SCREEN_WIDTH; i++)
   {
+	//myDrawInfo->myOffset=0x5be8;
+	//myDrawInfo->myOffset=0xa1c8;
+	//myDrawInfo->myOffset=0x66a8;
+	//myDrawInfo->myOffset=0;
 	auto color = myDrawInfo->drawBuffer[myDrawInfo->myOffset * 4 + myDrawInfo->myPixelOffset + i];
 	auto sdl_color = myDrawInfo->drawPalette[color];
-	tempDrawBuffer[i] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
+	tempDrawBuffer[i + 0 * SCREEN_WIDTH] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
+  }
+  for (int i = 0; i < SCREEN_WIDTH * (SCREEN_HEIGHT - 176); i++)
+  {
+	auto color = myDrawInfo->drawBuffer[0 + myDrawInfo->myPixelOffset + i];
+	auto sdl_color = myDrawInfo->drawPalette[color];
+	tempDrawBuffer[i + 176 * SCREEN_WIDTH] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
   }
   SDL_UpdateTexture(myTexture, NULL, tempDrawBuffer, SCREEN_WIDTH*sizeof(uint32_t));
   SDL_RenderClear(myRenderer);
@@ -115,6 +124,7 @@ int main()
 			   }
 			   updateDraw();
 			   SDL_Delay(20);
+			   printf("offset = %x\n", myDrawInfo->myOffset);
 		   }
 		}
 

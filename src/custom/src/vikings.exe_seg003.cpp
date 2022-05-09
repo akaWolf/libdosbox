@@ -19,7 +19,7 @@
     _begin:
  sub_1c8f1: // far call
 printf("sub_1c8f1\n");
-//cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
+cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
 	// 35680
 cs=0xe25;eip=0x0000c1; 	X(PUSH(es));	// 35685 push    es ;~ 0E25:00C1
 ret_e25_c2:
@@ -2512,7 +2512,7 @@ cs=0xe25;eip=0x00155f; 	J(LOOP(loc_1dd7a));	// 37986 loop    loc_1DD7A ;~ 0E25:1
 cs=0xe25;eip=0x001561; 	J(JMP(loc_1db94));	// 37987 jmp     loc_1DB94 ;~ 0E25:1561
  sub_1dd9c: // far call
  printf("sub_1dd9c\n"); // draw all objects
- //cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
+ cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
 	// 37997
 cs=0xe25;eip=0x00156c; 	T(MOV(di, 0x0FE));	// 37999 mov     di, 0FEh ; 'þ' ;~ 0E25:156C
 loc_1dd9f:
@@ -2551,7 +2551,7 @@ cs=0xe25;eip=0x0015c5; 	X(MOV(*(raddr(ds,0x9568)), 0));	// 38034 mov     byte pt
 cs=0xe25;eip=0x0015ca; 	J(RETF(0));	// 38035 retf ;~ 0E25:15CA
  sub_1de05: // far call
  printf("sub_1de05\n"); // redraw objects after movement
- // cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
+ cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
 	// 38048
 cs=0xe25;eip=0x0015d5; 	X(PUSH(es));	// 38050 push    es ;~ 0E25:15D5
 ret_e25_15d6:
@@ -2721,7 +2721,7 @@ cs=0xe25;eip=0x001738; 	X(POP(es));	// 38216 pop     es ;~ 0E25:1738
 cs=0xe25;eip=0x001739; 	J(RETF(0));	// 38217 retf ;~ 0E25:1739
  sub_1df6a: // far call
  printf("sub_1df6a\n"); // redraw some object after change of the state
- // cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
+ cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
 	// 38224
 cs=0xe25;eip=0x00173a; 	X(PUSH(es));	// 38225 push    es ;~ 0E25:173A
 ret_e25_173b:
@@ -2889,7 +2889,7 @@ cs=0xe25;eip=0x001895; 	X(POP(es));	// 38389 pop     es ;~ 0E25:1895
 cs=0xe25;eip=0x001896; 	J(RETF(0));	// 38390 retf ;~ 0E25:1896
  sub_1e0c7: // far call
  printf("sub_1e0c7\n"); // draw UI
- //cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
+ cs=0xe25;eip=0x000108; 	J(RETF(0));	// 35719 retf ;~ 0E25:0108 //debug
 	// 38397
 cs=0xe25;eip=0x001897; 	T(TEST(*(raddr(ds,0x956B)), 0x0FF));	// 38399 test    byte ptr ds:956Bh, 0FFh ;~ 0E25:1897
 ret_e25_189c:
