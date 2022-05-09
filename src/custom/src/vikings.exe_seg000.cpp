@@ -64,6 +64,10 @@ uint8_t getPixel(uint32_t offset)
 	printf("getPixel error");
   return myDrawInfo->drawBuffer[offset];
 }
+uint8_t getPixel(uint8_t plane, uint32_t plane_offset)
+{
+  return getPixel(plane4_to_linear(plane, plane_offset));
+}
 void setPalette(uint8_t color, uint8_t r, uint8_t g, uint8_t b)
 {
  myDrawInfo->drawPalette[color] = {r, g, b, 255};
@@ -75,7 +79,7 @@ bool redraw_tilemap()
     X86_REGREF
 	m2c::_STATE *_state;
 	//sub_1712b:
-	cs=0x1a2;eip=0x00712a; 	J(RETN(0));	// 16471 retn ;~ 01A2:712A
+	//cs=0x1a2;eip=0x00712a; 	J(RETN(0));	// 16471 retn ;~ 01A2:712A
 	// 16476
 cs=0x1a2;eip=0x00712b; 	X(PUSH(es));	// 16478 push    es ;~ 01A2:712B
 ret_1a2_712c:
@@ -95,6 +99,11 @@ cs=0x1a2;eip=0x007145; 	T(MOV(di, *(dw*)(raddr(ds,0x9317))));	// 16494 mov     d
 cs=0x1a2;eip=0x007149; 	T(MOV(ch, 0));	// 16495 mov     ch, 0 ;~ 01A2:7149
 cs=0x1a2;eip=0x00714b; 	T(MOV(cl, *(raddr(ds,0x9311))));	// 16496 mov     cl, ds:9311h ;~ 01A2:714B
 cs=0x1a2;eip=0x00714f; 	T(MOV(bx, 0));	// 16497 mov     bx, 0 ;~ 01A2:714F
+ for (int i = 0; i <= cx; i++)
+   for (int j = 0; j < 4; j++) {
+	 drawPixel(j, di + i * 0x56, getPixel(j, si + i * 0x56));
+	 drawPixel(j, di + i * 0x56 + 1, getPixel(j, si + i * 0x56 + 1));
+   }
 loc_17152:
 	// 5800
 cs=0x1a2;eip=0x007152; 	T(MOV(al, *(raddr(es,bx+si))));	// 16500 mov     al, es:[bx+si] ;~ 01A2:7152
@@ -109,6 +118,11 @@ cs=0x1a2;eip=0x00716b; 	J(JCXZ(loc_17189));	// 16508 jcxz    short loc_17189 ;~ 
 cs=0x1a2;eip=0x00716d; 	T(ADD(si, bx));	// 16509 add     si, bx ;~ 01A2:716D
 cs=0x1a2;eip=0x00716f; 	T(MOV(di, *(dw*)(raddr(ds,0x9319))));	// 16510 mov     di, ds:9319h ;~ 01A2:716F
 cs=0x1a2;eip=0x007173; 	T(MOV(bx, 0));	// 16511 mov     bx, 0 ;~ 01A2:7173
+ for (int i = 0; i <= cx; i++)
+   for (int j = 0; j < 4; j++) {
+	 drawPixel(j, di + i * 0x56, getPixel(j, si + i * 0x56));
+	 drawPixel(j, di + i * 0x56 + 1, getPixel(j, si + i * 0x56 + 1));
+   }
 loc_17176:
 	// 5801
 cs=0x1a2;eip=0x007176; 	T(MOV(al, *(raddr(es,bx+si))));	// 16514 mov     al, es:[bx+si] ;~ 01A2:7176
@@ -124,6 +138,11 @@ cs=0x1a2;eip=0x00718d; 	T(MOV(di, *(dw*)(raddr(ds,0x931B))));	// 16523 mov     d
 cs=0x1a2;eip=0x007191; 	T(MOV(ch, 0));	// 16524 mov     ch, 0 ;~ 01A2:7191
 cs=0x1a2;eip=0x007193; 	T(MOV(cl, *(raddr(ds,0x9313))));	// 16525 mov     cl, ds:9313h ;~ 01A2:7193
 cs=0x1a2;eip=0x007197; 	T(MOV(bx, 0));	// 16526 mov     bx, 0 ;~ 01A2:7197
+ for (int i = 0; i <= cx; i++)
+   for (int j = 0; j < 4; j++) {
+	 drawPixel(j, di + i * 0x56, getPixel(j, si + i * 0x56));
+	 drawPixel(j, di + i * 0x56 + 1, getPixel(j, si + i * 0x56 + 1));
+   }
 loc_1719a:
 	// 5803
 cs=0x1a2;eip=0x00719a; 	T(MOV(al, *(raddr(es,bx+si))));	// 16529 mov     al, es:[bx+si] ;~ 01A2:719A
@@ -138,6 +157,11 @@ cs=0x1a2;eip=0x0071b3; 	J(JCXZ(loc_171d1));	// 16537 jcxz    short loc_171D1 ;~ 
 cs=0x1a2;eip=0x0071b5; 	T(ADD(si, bx));	// 16538 add     si, bx ;~ 01A2:71B5
 cs=0x1a2;eip=0x0071b7; 	T(MOV(di, *(dw*)(raddr(ds,0x931D))));	// 16539 mov     di, ds:931Dh ;~ 01A2:71B7
 cs=0x1a2;eip=0x0071bb; 	T(MOV(bx, 0));	// 16540 mov     bx, 0 ;~ 01A2:71BB
+ for (int i = 0; i <= cx; i++)
+   for (int j = 0; j < 4; j++) {
+	 drawPixel(j, di + i * 0x56, getPixel(j, si + i * 0x56));
+	 drawPixel(j, di + i * 0x56 + 1, getPixel(j, si + i * 0x56 + 1));
+   }
 loc_171be:
 	// 5804
 cs=0x1a2;eip=0x0071be; 	T(MOV(al, *(raddr(es,bx+si))));	// 16543 mov     al, es:[bx+si] ;~ 01A2:71BE
