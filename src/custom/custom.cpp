@@ -1,6 +1,6 @@
+#ifdef DOSBOX_CUSTOM
 #include "dosbox.h"
 
-#ifdef DOSBOX_CUSTOM
 #include "circular_buffer.h"
 
 #include "setup.h"
@@ -126,6 +126,7 @@ static void print_traces ();
 void
 custom_init_prog (char *name, Bit16u relocate, Bit16u init_cs, Bit16u init_ip)
 {
+  printf("CUSTOM: %s %x %x %x\n", name, relocate, init_cs, init_ip);
   /* run all detectors */
   if (masm2c_init (name, relocate, init_cs, init_ip))
     {
@@ -182,9 +183,9 @@ custom_init (Section * sec)
 
   X86_REGREF m2c::_STATE * _state = 0;
 /*
-    fedisableexcept(FE_INVALID   | 
-                   FE_DIVBYZERO | 
-                   FE_OVERFLOW  | 
+    fedisableexcept(FE_INVALID   |
+                   FE_DIVBYZERO |
+                   FE_OVERFLOW  |
                    FE_UNDERFLOW);
 
   struct sigaction my_action;
@@ -201,6 +202,7 @@ custom_init (Section * sec)
 void
 custom_init_entrypoint (char *name, Bit16u relocate)
 {
+  printf("CUSTOM: %s %x\n", name, relocate);
   if (!custom_runs)
     return;
 
@@ -587,7 +589,7 @@ struct CPU_Regs {
         if (!trace_instructions_to_stdout)
           {
         CPU_State cs={counter, file, line, _indent, instr, r, s};
-        
+
         trace_store.push_back (cs);
           }
         else
@@ -646,13 +648,13 @@ else if (op1 == 0xeb) //jmpf
 else if (op1 == 0xff) //jmpf
 {
   db op2 = *(b+1);
-  if (op2>=0x10 && op2 <= 0x2f ) //call/jmp 
+  if (op2>=0x10 && op2 <= 0x2f ) //call/jmp
     instr_size += 4;
-  else if (op2>=0x50 && op2 <= 0x6f ) //call/jmp 
+  else if (op2>=0x50 && op2 <= 0x6f ) //call/jmp
     instr_size += 3;
-  else if (op2 >= 0x90 && op2<=0xAf) //call/jmp 
+  else if (op2 >= 0x90 && op2<=0xAf) //call/jmp
     instr_size += 4;
-  else if (op2 >= 0xd0 && op2<=0xef) //call/jmp 
+  else if (op2 >= 0xd0 && op2<=0xef) //call/jmp
     instr_size += 2;
 }
 else if (op1 == 0x0f) //j
@@ -723,7 +725,7 @@ char jump_name[100]="";
       }
     else
       {
-//	if (compare_jump==false) 
+//	if (compare_jump==false)
 //        { log_debug ("Cannot compare instruction. Interpreter was called\n");
 //          return true;}
         realSegs = Segs;
@@ -1051,9 +1053,9 @@ stackDump();
   }
 
 
-  void interpret_unknown_callf(dw newcs, dd newip, db source)
+void interpret_unknown_callf(_STATE* _state, dw newcs, dd newip, db source)
   {
-    X86_REGREF 
+    X86_REGREF
     if (cs == newcs && newip == eip)
     {
     log_debug ("Called from interpreter. return1");
@@ -1100,7 +1102,7 @@ if (debug > 0)
 
   void ShadowStack::push (_STATE * _state, dd value)
   {
-     
+
      if (!m_active && !m_forceactive) return;
 //     m2c::log_info("+++ShadowStack::push %x\n",value);
 
@@ -1159,7 +1161,7 @@ if (debug > 0)
       m_currentdeep = m_ss[m_current].call_deep;
                   log_error ("m2c::counter %x m_deep %d collected m_currentdeep %d m_needtoskipcall %d\n", counter, m_deep, m_currentdeep,m_needtoskipcall);
           }
-      
+
       }
       m_itisret = false;
   }
@@ -1174,9 +1176,9 @@ log_error("m_deep=%d ",m_deep);
         bool ShadowStack::needtoskipcalls(){
 /*
 log_error("ret m_currentdeep=%d ",m_currentdeep);
-m_needtoskipcall=m_currentdeep?m_deep-m_currentdeep:0; 
+m_needtoskipcall=m_currentdeep?m_deep-m_currentdeep:0;
 if (m_needtoskipcall<0) {m_needtoskipcall=0;}
-//m_deep=m_currentdeep?m_currentdeep-1:m_deep; 
+//m_deep=m_currentdeep?m_currentdeep-1:m_deep;
 --m_deep;
 log_error("m_deep=%d ",m_deep);
 m_currentdeep=0;
@@ -1233,7 +1235,7 @@ return m_needtoskipcall;}
 void
 init_entrypoint (Bit16u relocate)
 {
-  X86_REGREF 
+  X86_REGREF
   printf ("Starting m2c\n");
   printf ("\n\nCS:IP 0x%x:0x%x\tMemBase: %p\n", cs, eip, MemBase);
 

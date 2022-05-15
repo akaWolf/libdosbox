@@ -3,6 +3,8 @@
 #define __asm_h__
 
 
+#include <vector>
+
 #include <cstdlib>
 #include <cstdarg>
 #include <cmath>
@@ -104,11 +106,38 @@ typedef long double real10;
 
 extern volatile bool compare_jump;
 
+#ifndef DOSBOX_CUSTOM
+namespace m2c {
+  class _STATE;
+}
+
+typedef uint8_t Bits;
+typedef uint8_t Bit8u;
+typedef uint16_t Bit16u;
+typedef uint32_t Bit32u;
+typedef uint64_t Bit64u;
+extern volatile bool from_callf;
+//extern m2c::_STATE* _state;
+
+extern void CPU_IRET(bool, uint8_t);
+extern void CPU_Exception(uint8_t);
+extern void CPU_CLI();
+extern void CPU_STI();
+extern uint8_t mem_readb(uint64_t);
+extern uint16_t mem_readw(uint64_t);
+extern uint32_t mem_readd(uint64_t);
+extern uint8_t mem_writeb(uint64_t, uint8_t);
+extern uint16_t mem_writew(uint64_t, uint16_t);
+extern uint32_t mem_writed(uint64_t, uint32_t);
+
+
+#endif
+
 namespace m2c {
 
     bool fix_segs();
 
-    extern void log_regs_dbx(const char *file, int line, const char *instr, const CPU_Regs &r, const Segments &s);
+  //extern void log_regs_dbx(const char *file, int line, const char *instr, const CPU_Regs &r, const Segments &s);
 
     extern size_t debug;
 
@@ -124,6 +153,119 @@ namespace m2c {
 //    extern Memory &m;
 
     typedef dd _offsets;
+
+
+#ifndef DOSBOX_CUSTOM
+  class ShadowStack {
+        struct Frame {
+            const char *file;
+            size_t line;
+            dd sp;
+            dw cs;
+            dd ip;
+            dd value;
+            dw *pointer_;
+            size_t addcounter;
+            size_t remcounter;
+            bool itwascall;
+            size_t call_deep;
+        };
+
+        std::vector<Frame> m_ss;
+        size_t m_current;
+        bool m_itiscall;
+        bool m_itisret;
+        size_t m_deep;
+    public:
+        int m_needtoskipcall;
+        bool m_active;
+        bool m_forceactive;
+
+        size_t m_currentdeep;
+
+        ShadowStack() : m_current(0),m_itiscall(false),
+m_needtoskipcall(0),m_deep(1),m_currentdeep(0),m_active(true),m_forceactive(false) {}
+
+        void enable() {m_active=true;}
+        void disable() {m_active=false;}
+        void forceenable() {m_forceactive=true;}
+        void forcedisable() {m_forceactive=false;}
+
+        void push(_STATE *_state, dd value);
+
+        void pop(_STATE *_state);
+
+        void print(_STATE *_state);
+        void print_frame(const Frame& f);
+
+        void itiscall() {m_itiscall=true;}
+        void itisret() {m_itisret=true;}
+        bool itwascall() {return m_ss[m_current].itwascall;}
+
+        void decreasedeep();
+        bool needtoskipcalls();
+        size_t getneedtoskipcallndclean(){int ret = m_needtoskipcall; m_needtoskipcall = 0; return ret;}
+        void noneedreturn(){--m_needtoskipcall;}
+    };
+
+    class fBits {
+        unsigned int _CF: 1,
+                unused1: 1,
+                _PF: 1,
+                unused2: 1,
+                _AF: 1,
+                unused3: 1,
+                _ZF: 1,
+                _SF: 1,
+                _TF: 1,
+                _IF: 1,
+                _DF: 1,
+                _OF: 1;
+    public:
+#define REGDEF_flags(Z) \
+    inline bool set##Z##F(bool i){return (_##Z##F=i);} \
+    inline bool get##Z##F(){return _##Z##F;}
+
+        inline void reset() {
+            _CF = false;
+            _PF = false;
+            _AF = false;
+            _ZF = false;
+            _SF = false;
+            _TF = false;
+            _IF = false;
+            _DF = false;
+            _OF = false;
+        }
+
+        REGDEF_flags(C)
+
+        REGDEF_flags(P)
+
+        REGDEF_flags(A)
+
+        REGDEF_flags(Z)
+
+        REGDEF_flags(S)
+
+        REGDEF_flags(T)
+
+        REGDEF_flags(I)
+
+        REGDEF_flags(D)
+
+        REGDEF_flags(O)
+    };
+
+    union eflags {
+        fBits bits;
+        dd value;
+    };
+
+
+    extern db _indent;
+  extern const char* _str;
+#endif
 
 // Regs
     struct _STATE {
@@ -159,6 +301,9 @@ namespace m2c {
         bool IF;
         db _indent;
         const char *_str;
+#ifndef DOSBOX_CUSTOM
+	  eflags flags;
+#endif
     };
 
 #define REGDEF_hl(Z)   \
@@ -190,14 +335,15 @@ uint16_t& Z = *(uint16_t *)& e##Z ;
     REGDEF_l(bp);     \
                       \
     REGDEF_nol(ip);   \
-                      \
+							 \
 dw& cs = _state->cs;         \
 dw& ds = _state->ds;         \
 dw& es = _state->es;         \
 dw& fs = _state->fs;         \
 dw& gs = _state->gs;         \
 dw& ss = _state->ss;         \
-                      \
+m2c::eflags& m2cflags = _state->flags;   \
+ 							 \
 bool& CF = _state->CF;       \
 bool& PF = _state->PF;       \
 bool& AF = _state->AF;       \
@@ -619,15 +765,15 @@ static void setdata(dd* d, dd s)
 #else
 
 #define PUSH(a) {dd averytemporary=a;stackPointer-=sizeof(a); \
-        memcpy (m2c::raddr_(ss,stackPointer), &averytemporary, sizeof (a));}
+        memcpy (m2c::raddr_(ss,stackPointer), &averytemporary, sizeof (a)); m2c::shadow_stack.push(_state,(dd)(a));}
 
-#define POP(a) {memcpy (&a, m2c::raddr_(ss,stackPointer), sizeof (a));stackPointer+=sizeof(a);}
+#define POP(a) {m2c::shadow_stack.pop(_state); memcpy (&a, m2c::raddr_(ss,stackPointer), sizeof (a));stackPointer+=sizeof(a);}
 
 #endif
 
-#define PUSHAD m2c::PUSHAD_()
+#define PUSHAD m2c::PUSHAD_(_state)
 
-    static void PUSHAD_() {
+    static void PUSHAD_(_STATE *_state) {
         X86_REGREF
         dw oldesp = esp;
         PUSH(eax);
@@ -640,9 +786,9 @@ static void setdata(dd* d, dd s)
         PUSH(edi);
     }
 
-#define POPAD m2c::POPAD_()
+#define POPAD m2c::POPAD_(_state)
 
-    static void POPAD_() {
+    static void POPAD_(_STATE *_state) {
         X86_REGREF
         POP(edi);
         POP(esi);
@@ -1337,12 +1483,13 @@ AFFECT_CF(((Destination<<m2c::bitsizeof(Destination)+Source) >> (32 - Count)) & 
     }
 
 
-#define MOV(dest, src) {m2c::MOV_(&dest,src);}
+#define MOV(dest, src) {m2c::MOV_(_state,&dest,src);}
 
     template<class D, class S>
-    inline void MOV_(D *dest, const S &src) {
-	  //	  if (isaddrbelongtovga(dest))
-	  //		printf("VGA\n");
+    inline void MOV_(_STATE *_state,D *dest, const S &src) {
+	  X86_REGREF
+	  	  if (isaddrbelongtovga(dest))
+	  		printf("VGA: %x:%x %x->%x\n", cs, eip, m2c::getdata(src), (const db *const)dest - 0xa0000 - (const db *const) &m);
 	  m2c::setdata(dest, static_cast<D>(m2c::getdata(src)));
 	}
 //{ *dest = static_cast<D>(src); }
@@ -1480,9 +1627,9 @@ struct StackPop
    size_t deep;
 };
 
-#define RETN(i) {if (m2c::RETN_(i)) {m2c::shadow_stack.decreasedeep(); return true;} else  {__disp=(cs<<16)+eip;goto __dispatch_call;}}
+#define RETN(i) {if (m2c::RETN_(_state,i)) {m2c::shadow_stack.decreasedeep(); return true;} else  {__disp=(cs<<16)+eip;goto __dispatch_call;}}
 
-    static bool RETN_(size_t i) {
+     static bool RETN_(_STATE *_state,size_t i) {
         X86_REGREF
         if (debug>2) log_debug("before ret %x\n", stackPointer);
 
@@ -1510,9 +1657,9 @@ throw StackPop(skip);
     }
 
 //#define RETF(i) {m2c::RETF_(i); if (ip=='xy') {m2c::shadow_stack.decreasedeep(); return true;} else  {return __dispatch_call((cs<<16)+eip,0);}}
-#define RETF(i) {m2c::RETF_(i); m2c::shadow_stack.decreasedeep();return true;}
+#define RETF(i) {m2c::RETF_(_state, i); m2c::shadow_stack.decreasedeep();return true;}
 
-    static bool RETF_(size_t i) {
+    static bool RETF_(_STATE *_state,size_t i) {
         X86_REGREF
         if (debug>2) log_debug("before retf %x\n", stackPointer);
 
@@ -1564,7 +1711,9 @@ throw StackPop(skip);
             m2c::_indent += 1;
             m2c::_str = m2c::log_spaces(m2c::_indent);
         }
+		#ifdef DOSBOX_CUSTOM
         _state = (_STATE *)2;
+		#endif
         try{
             label(_i, _state);
         }
@@ -1836,7 +1985,7 @@ dw _source;
 
 //extern void log_regs(int line, const char * instr, struct _STATE* _state);
 
-    extern void interpret_unknown_callf(dw cs, dd eip, db source=0);
+    extern void interpret_unknown_callf(_STATE* _state, dw cs, dd eip, db source=0);
 
     static bool oldZF = false;
     static bool repForMov = false;

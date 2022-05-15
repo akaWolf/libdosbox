@@ -84,10 +84,10 @@ void setPalette(uint8_t color, uint8_t r, uint8_t g, uint8_t b)
 }
 
 
-bool redraw_tilemap()
+bool redraw_tilemap(m2c::_STATE *_state)
 {
     X86_REGREF
-	m2c::_STATE *_state;
+	  //m2c::_STATE *_state;
 	//sub_1712b:
 	//cs=0x1a2;eip=0x00712a; 	J(RETN(0));	// 16471 retn ;~ 01A2:712A
 	// 16476
@@ -195,10 +195,10 @@ cs=0x1a2;eip=0x0071db; 	J(RETN(0));	// 16559 retn ;~ 01A2:71DB
  assert(0);
 }
 
-bool draw_tile()
+bool draw_tile(m2c::_STATE *_state)
 {
     X86_REGREF
-	m2c::_STATE *_state;
+	  //m2c::_STATE *_state;
 	//sub_1689e:
 //cs=0x1a2;eip=0x00689d; 	J(RETN(0));	// 15622 retn ;~ 01A2:689D
 	// 15627
@@ -767,10 +767,10 @@ cs=0x1a2;eip=0x006dc0; 	J(RETN(0));	// 16086 retn ;~ 01A2:6DC0
  assert(0);
 }
 
-bool display_selector()
+bool display_selector(m2c::_STATE *_state)
 {
     X86_REGREF
-	m2c::_STATE *_state;
+	  //m2c::_STATE *_state;
 	  //sub_118ad:
 //cs=0x1a2;eip=0x0018ac; 	J(RETN(0));	// 3288 retn ;~ 01A2:18AC
 	// 3295
@@ -971,10 +971,10 @@ cs=0x1a2;eip=0x001aa3; 	J(RETN(0));	// 3433 retn ;~ 01A2:1AA3
  assert(0);
 }
 
-bool draw_inventory_item()
+bool draw_inventory_item(m2c::_STATE *_state)
 {
     X86_REGREF
-	m2c::_STATE *_state;
+	  //m2c::_STATE *_state;
 	//sub_1183d:
 //cs=0x1a2;eip=0x00183c; 	J(RETN(0));	// 3208 retn ;~ 01A2:183C
 	// 3215
@@ -1073,10 +1073,10 @@ cs=0x1a2;eip=0x0018ac; 	J(RETN(0));	// 3288 retn ;~ 01A2:18AC
  assert(0);
 }
 
-bool set_display_memory_addr()
+bool set_display_memory_addr(m2c::_STATE *_state)
 {
   X86_REGREF
-	m2c::_STATE *_state;
+	//m2c::_STATE *_state;
   	// 15428
 cs=0x1a2;eip=0x006775; 	X(PUSH(cx));	// 15430 push    cx ;~ 01A2:6775
 // trace_instructions = true; trace_instructions_to_stdout = true;
@@ -1160,10 +1160,10 @@ cs=0x1a2;eip=0x0067fe; 	J(RETN(0));	// 15485 retn ;~ 01A2:67FE
  assert(0);
 }
 
-bool copy_palitra_with_shaded()
+bool copy_palitra_with_shaded(m2c::_STATE *_state)
 {
   X86_REGREF
-	m2c::_STATE *_state;
+	//m2c::_STATE *_state;
 	// 2041
 db data_pal_1 = *(db*)raddr(ds,0x342);
 db data_pal_2 = *(db*)raddr(ds,0x343);
@@ -1205,10 +1205,10 @@ cs=0x1a2;eip=0x000f5c; 	J(RETN(0));	// 2103 retn ;~ 01A2:0F5C
  assert(0);
 }
 
-bool read_chunk()
+bool read_chunk(m2c::_STATE *_state)
 {
   X86_REGREF
-	m2c::_STATE *_state;
+	//m2c::_STATE *_state;
   printf("~! Loading chunk %x -> %x:%x\n", ax, es, di);
 	// 1218
 cs=0x1a2;eip=0x000982; 	X(PUSH(ds));	// 1220 push    ds ;~ 01A2:0982
@@ -1689,10 +1689,10 @@ cs=0x1a2;eip=0x000cd5; 	J(JMP(loc_10a22));	// 1696 jmp     loc_10A22 ;~ 01A2:0CD
  assert(0);
 }
 
-bool read_and_display_raw_chunk()
+bool read_and_display_raw_chunk(m2c::_STATE *_state)
 {
   X86_REGREF
-	m2c::_STATE *_state;
+	//m2c::_STATE *_state;
   printf("~! Loading raw chunk %x offset %x\n", ax, di);
 	// 1703
  dw plane_size = 0;
@@ -1784,7 +1784,7 @@ cs=0x1a2;eip=0x000d93; 	J(CALL(sub_10dba,0));	// 1788 call    sub_10DBA ;~ 01A2:
 start:
 	{
 	  printf("__start__\n");
-	    		char *shmpath = "/myDrawInfo";
+	    		const char *shmpath = "/myDrawInfo";
                /* Open the existing shared memory object and map it
                   into the caller's address space. */
 
@@ -2422,7 +2422,7 @@ cs=0x1a2;eip=0x000588; 	T(MOV(ax, 0x0FFFF));	// 721 mov     ax, 0FFFFh ;~ 01A2:0
 cs=0x1a2;eip=0x00058b; 	J(CALLF(sub_1c8f1,0));	// 722 call    sub_1C8F1 ;~ 01A2:058B
 cs=0x1a2;eip=0x000590; 	J(CALLF(sub_1e0c7,0));	// 723 call    sub_1E0C7 ;~ 01A2:0590
 //cs=0x1a2;eip=0x000595; 	J(JMP(sub_16775));	// 724 jmp     sub_16775 ;~ 01A2:0595
- return set_display_memory_addr();
+ return set_display_memory_addr(_state);
 loc_10598:
 	// 4433
 cs=0x1a2;eip=0x000598; 	T(MOV(si, 0x10));	// 728 mov     si, 10h ;~ 01A2:0598
@@ -2441,7 +2441,7 @@ cs=0x1a2;eip=0x0005ba; 	T(MOV(ax, 0x0FFFF));	// 740 mov     ax, 0FFFFh ;~ 01A2:0
 cs=0x1a2;eip=0x0005bd; 	J(CALLF(sub_1c8f1,0));	// 741 call    sub_1C8F1 ;~ 01A2:05BD
 cs=0x1a2;eip=0x0005c2; 	J(CALLF(sub_1e0c7,0));	// 742 call    sub_1E0C7 ;~ 01A2:05C2
 //cs=0x1a2;eip=0x0005c7; 	J(JMP(sub_16775));	// 743 jmp     sub_16775 ;~ 01A2:05C7
- return set_display_memory_addr();
+ return set_display_memory_addr(_state);
 locret_105ca:
 	// 4435
 cs=0x1a2;eip=0x0005ca; 	J(RETN(0));	// 747 retn ;~ 01A2:05CA
@@ -3331,7 +3331,7 @@ cs=0x1a2;eip=0x0011d5; 	T(MOV(di, 0x25B3));	// 2395 mov     di, 25B3h ;~ 01A2:11
 cs=0x1a2;eip=0x0011d8; 	T(MOV(cx, ds));	// 2396 mov     cx, ds ;~ 01A2:11D8
 cs=0x1a2;eip=0x0011da; 	T(MOV(es, cx));	// 2397 mov     es, cx ;~ 01A2:11DA
 //cs=0x1a2;eip=0x0011dc; 	J(JMP(sub_10982));	// 2399 jmp     sub_10982 ;~ 01A2:11DC
- return read_chunk();
+ return read_chunk(_state);
 sub_111df:
 	// 2406
 cs=0x1a2;eip=0x0011df; 	X(MOV(byte_28822, 0));	// 2407 mov     byte_28822, 0 ;~ 01A2:11DF
@@ -3374,7 +3374,7 @@ cs=0x1a2;eip=0x001247; 	T(MOV(ax, word_2aac5));	// 2445 mov     ax, word_2AAC5 ;
 cs=0x1a2;eip=0x00124a; 	T(MOV(di, 0));	// 2446 mov     di, 0 ;~ 01A2:124A
 cs=0x1a2;eip=0x00124d; 	T(MOV(es, word_2b33d));	// 2447 mov     es, word_2B33D ;~ 01A2:124D
 //cs=0x1a2;eip=0x001251; 	J(JMP(sub_10982));	// 2448 jmp     sub_10982 ;~ 01A2:1251
- return read_chunk();
+ return read_chunk(_state);
 loc_11254:
 	// 4575
 cs=0x1a2;eip=0x001254; 	X(PUSH(si));	// 2452 push    si ;~ 01A2:1254
@@ -3598,7 +3598,7 @@ cs=0x1a2;eip=0x001440; 	J(CALL(sub_16ded,0));	// 2702 call    sub_16DED ;~ 01A2:
 loc_11443:
 	// 4596
 //cs=0x1a2;eip=0x001443; 	J(JMP(sub_16775));	// 2705 jmp     sub_16775 ;~ 01A2:1443
- return set_display_memory_addr();
+ return set_display_memory_addr(_state);
 sub_11446:
 	// 2712
 cs=0x1a2;eip=0x001446; 	X(MOV(word_2881c, 0));	// 2713 mov     word_2881C, 0 ;~ 01A2:1446
@@ -3809,7 +3809,7 @@ cs=0x1a2;eip=0x00166a; 	J(CALLF(sub_1dd9c,0));	// 2931 call    sub_1DD9C ;~ 01A2
 cs=0x1a2;eip=0x00166f; 	T(MOV(ax, 0x0FFFE));	// 2932 mov     ax, 0FFFEh ;~ 01A2:166F
 cs=0x1a2;eip=0x001672; 	J(CALLF(sub_1c8f1,0));	// 2933 call    sub_1C8F1 ;~ 01A2:1672
 //cs=0x1a2;eip=0x001677; 	J(JMP(sub_16775));	// 2934 jmp     sub_16775 ;~ 01A2:1677
- return set_display_memory_addr();
+ return set_display_memory_addr(_state);
 sub_1167a:
 	// 2941
 cs=0x1a2;eip=0x00167a; 	T(MOV(si, 0));	// 2942 mov     si, 0 ;~ 01A2:167A
@@ -17077,14 +17077,14 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::ksub_1086f: 	goto sub_1086f;
         case m2c::ksub_108b8: 	goto sub_108b8;
         case m2c::ksub_108c8: 	goto sub_108c8;
-	case m2c::ksub_10982: 	return read_chunk();
-	case m2c::ksub_10cd8: 	return read_and_display_raw_chunk();
+	case m2c::ksub_10982: 	return read_chunk(_state);
+	case m2c::ksub_10cd8: 	return read_and_display_raw_chunk(_state);
         case m2c::ksub_10d96: 	goto sub_10d96;
         case m2c::ksub_10d9f: 	goto sub_10d9f;
         case m2c::ksub_10dba: 	goto sub_10dba;
         case m2c::ksub_10e85: 	goto sub_10e85;
         case m2c::ksub_10e99: 	goto sub_10e99;
-	case m2c::ksub_10f03: 	return copy_palitra_with_shaded();
+	case m2c::ksub_10f03: 	return copy_palitra_with_shaded(_state);
         case m2c::ksub_10f5d: 	goto sub_10f5d;
         case m2c::ksub_10fa0: 	goto sub_10fa0;
         case m2c::ksub_10fe6: 	goto sub_10fe6;
@@ -17113,8 +17113,8 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::ksub_11792: 	goto sub_11792;
         case m2c::ksub_117ad: 	goto sub_117ad;
         case m2c::ksub_117d0: 	goto sub_117d0;
-	case m2c::ksub_1183d: 	return draw_inventory_item();
-	case m2c::ksub_118ad: 	return display_selector();
+	case m2c::ksub_1183d: 	return draw_inventory_item(_state);
+	case m2c::ksub_118ad: 	return display_selector(_state);
         case m2c::ksub_11aa4: 	goto sub_11aa4;
         case m2c::ksub_11b0b: 	goto sub_11b0b;
         case m2c::ksub_11ba5: 	goto sub_11ba5;
@@ -17494,12 +17494,12 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::ksub_166e8: 	goto sub_166e8;
         case m2c::ksub_16710: 	goto sub_16710;
         case m2c::ksub_1673c: 	goto sub_1673c;
-	case m2c::ksub_16775: 	return set_display_memory_addr();
+	case m2c::ksub_16775: 	return set_display_memory_addr(_state);
         case m2c::ksub_167ff: 	goto sub_167ff;
         case m2c::ksub_16807: 	goto sub_16807;
         case m2c::ksub_1686f: 	goto sub_1686f;
         case m2c::ksub_16880: 	goto sub_16880;
-	case m2c::ksub_1689e: 	return draw_tile();
+	case m2c::ksub_1689e: 	return draw_tile(_state);
         case m2c::ksub_16dc1: 	goto sub_16dc1;
         case m2c::ksub_16dd9: 	goto sub_16dd9;
         case m2c::ksub_16ded: 	goto sub_16ded;
@@ -17507,7 +17507,7 @@ cs=0x1a2;eip=0x007a5b; 	J(RETN(0));	// 17781 retn ;~ 01A2:7A5B
         case m2c::ksub_16f5f: 	goto sub_16f5f;
         case m2c::ksub_17049: 	goto sub_17049;
         case m2c::ksub_170b9: 	goto sub_170b9;
-	case m2c::ksub_1712b: 	return redraw_tilemap();
+	case m2c::ksub_1712b: 	return redraw_tilemap(_state);
         case m2c::ksub_171dc: 	goto sub_171dc;
         case m2c::ksub_172d3: 	goto sub_172d3;
         case m2c::ksub_17337: 	goto sub_17337;

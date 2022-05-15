@@ -9636,7 +9636,7 @@ bool sub_1e0c7(m2c::_offsets, struct m2c::_STATE*);
 bool sub_1e16d(m2c::_offsets, struct m2c::_STATE*);
 
 #ifndef DOSBOX_CUSTOM
-static
+//static
 #endif
 bool __dispatch_call(m2c::_offsets __disp, struct m2c::_STATE* _state);
 
