@@ -49,13 +49,23 @@ void drawPixel(uint32_t offset, uint8_t color)
   myDrawInfo->drawBuffer[offset + 1] = color & 0xFF;
   myDrawInfo->drawBuffer[offset + 0] = color >> 8;
 }*/
+void drawPixel(uint8_t plane, uint32_t plane_offset, uint32_t color)
+{
+  printf("DRW: %x %x %x\n", plane, plane_offset, color);
+  drawPixel(plane4_to_linear(plane, plane_offset + 0), (color >> 0) & 0xFF);
+  drawPixel(plane4_to_linear(plane, plane_offset + 1), (color >> 8) & 0xFF);
+  drawPixel(plane4_to_linear(plane, plane_offset + 2), (color >> 16) & 0xFF);
+  drawPixel(plane4_to_linear(plane, plane_offset + 3), (color >> 24) & 0xFF);
+}
 void drawPixel(uint8_t plane, uint32_t plane_offset, uint16_t color)
 {
+  printf("DRW: %x %x %x\n", plane, plane_offset, color);
   drawPixel(plane4_to_linear(plane, plane_offset + 0), color & 0xFF);
   drawPixel(plane4_to_linear(plane, plane_offset + 1), color >> 8);
 }
 void drawPixel(uint8_t plane, uint32_t plane_offset, uint8_t color)
 {
+  printf("DRW: %x %x %x\n", plane, plane_offset, color);
   drawPixel(plane4_to_linear(plane, plane_offset), color);
 }
 uint8_t getPixel(uint32_t offset)
@@ -1773,6 +1783,7 @@ cs=0x1a2;eip=0x000d93; 	J(CALL(sub_10dba,0));	// 1788 call    sub_10DBA ;~ 01A2:
     _begin:
 start:
 	{
+	  printf("__start__\n");
 	    		char *shmpath = "/myDrawInfo";
                /* Open the existing shared memory object and map it
                   into the caller's address space. */
@@ -2778,6 +2789,7 @@ loc_108f5:
 	// 4476
 cs=0x1a2;eip=0x0008f5; 	T(CMP(*(dw*)(raddr(ds,si-0x66F4)), 0x0FFFF));	// 1156 cmp     word ptr [si-66F4h], 0FFFFh ;~ 01A2:08F5
 cs=0x1a2;eip=0x0008fb; 	J(JZ(loc_1092d));	// 1157 jz      short loc_1092D ;~ 01A2:08FB
+ printf("AIL sub_108c8: stop1\n");
 cs=0x1a2;eip=0x0008fd; 	X(PUSH(si));	// 1158 push    si ;~ 01A2:08FD
 cs=0x1a2;eip=0x0008fe; 	X(PUSH(si));	// 1159 push    si ;~ 01A2:08FE
 cs=0x1a2;eip=0x0008ff; 	X(PUSH(*(dw*)(raddr(ds,si-0x66F4))));	// 1160 push    word ptr [si-66F4h] ;~ 01A2:08FF
@@ -2804,6 +2816,7 @@ cs=0x1a2;eip=0x00093a; 	J(JNZ(locret_1097e));	// 1181 jnz     short locret_1097E
 cs=0x1a2;eip=0x00093c; 	X(MOV(byte_3167e, 0));	// 1182 mov     byte_3167E, 0 ;~ 01A2:093C
 cs=0x1a2;eip=0x000941; 	X(XOR(*(db*)(((db*)&word_287e2)), 1));	// 1183 xor     byte ptr word_287E2, 1 ;~ 01A2:0941
 cs=0x1a2;eip=0x000946; 	J(JNZ(loc_10959));	// 1184 jnz     short loc_10959 ;~ 01A2:0946
+ printf("AIL sub_108c8: start\n");
 cs=0x1a2;eip=0x000948; 	X(PUSH(bx));	// 1185 push    bx ;~ 01A2:0948
 cs=0x1a2;eip=0x000949; 	T(MOV(si, 0));	// 1186 mov     si, 0 ;~ 01A2:0949
 cs=0x1a2;eip=0x00094c; 	T(MOV(ax, 0));	// 1187 mov     ax, 0 ;~ 01A2:094C
@@ -2815,6 +2828,7 @@ loc_10959:
 	// 4479
 cs=0x1a2;eip=0x000959; 	T(TEST(word_287e2, 0x8000));	// 1195 test    word_287E2, 8000h ;~ 01A2:0959
 cs=0x1a2;eip=0x00095f; 	J(JNZ(locret_1097e));	// 1196 jnz     short locret_1097E ;~ 01A2:095F
+ printf("AIL sub_108c8: stop2\n");
 cs=0x1a2;eip=0x000961; 	X(PUSH(word_31dec));	// 1197 push    word_31DEC ;~ 01A2:0961
 cs=0x1a2;eip=0x000965; 	X(PUSH(word_31dc6));	// 1198 push    word_31DC6 ;~ 01A2:0965
 cs=0x1a2;eip=0x000969; 	J(CALLF(sub_1c79f,0));	// 1199 call    sub_1C79F ;~ 01A2:0969
@@ -3108,7 +3122,7 @@ for (int i = 0; i < 0x100; i++)
 cs=0x1a2;eip=0x000ffb; 	J(RETN(0));	// 2179 retn ;~ 01A2:0FFB
 sub_10ffc:
 	// 2186c
- printf("panning_fun_02\n");
+ printf("panning_fun_02_palette_animation\n");
 cs=0x1a2;eip=0x000ffc; 	X(MOV(word_303de, 0));	// 2188 mov     word_303DE, 0 ;~ 01A2:0FFC
 ret_1a2_1002:
 	// 4559
@@ -3140,6 +3154,16 @@ cs=0x1a2;eip=0x001040; 	T(ADD(si, ax));	// 2214 add     si, ax ;~ 01A2:1040
 cs=0x1a2;eip=0x001042; 	T(ADD(si, word_303e0));	// 2215 add     si, word_303E0 ;~ 01A2:1042
 	// 2216 rep outsb ;~ 01A2:1046
 cs=0x1a2;eip=0x001046; 	T(	REP OUTSB);	// 2216 rep outsb ;~ 01A2:1046
+ {
+   dw base_color = *(raddr(ds,bx+0x2594));
+   dw number = *(raddr(ds,bx+0x259C)) - base_color + 1;
+   //number = number * 3;
+   for (int i = 0; i < number; i++)
+	 setPalette(i + base_color,
+				(*(db*)(raddr(ds, word_303e0 + base_color * 3 + i*3 + 0))) << 2,
+				(*(db*)(raddr(ds, word_303e0 + base_color * 3 + i*3 + 1))) << 2,
+				(*(db*)(raddr(ds, word_303e0 + base_color * 3 + i*3 + 2))) << 2);
+ }
 cs=0x1a2;eip=0x001048; 	T(DEC(bx));	// 2217 dec     bx ;~ 01A2:1048
 cs=0x1a2;eip=0x001049; 	J(JS(locret_1106e));	// 2218 js      short locret_1106E ;~ 01A2:1049
 cs=0x1a2;eip=0x00104b; 	J(JMP(loc_11005));	// 2219 jmp     short loc_11005 ;~ 01A2:104B
@@ -14876,6 +14900,7 @@ cs=0x1a2;eip=0x007543; 	T(MOV(bx, 0));	// 17030 mov     bx, 0 ;~ 01A2:7543
 cs=0x1a2;eip=0x007546; 	T(MOV(ax, 0x2CE7));	// 17031 mov     ax, 2CE7h ;~ 01A2:7546
 cs=0x1a2;eip=0x007549; 	J(JMP(sub_10dba));	// 17032 jmp     sub_10DBA ;~ 01A2:7549
 sub_1754c:
+ printf("AIL sub_1754c: exit\n");
 	// 17039
 cs=0x1a2;eip=0x00754c; 	T(TEST(*(dw*)(raddr(ds,0x0A39A)), 0x0FFFF));	// 17041 test    word ptr ds:0A39Ah, 0FFFFh ;~ 01A2:754C
 ret_1a2_7552:
@@ -14889,6 +14914,7 @@ locret_17560:
 	// 5842
 cs=0x1a2;eip=0x007560; 	J(RETN(0));	// 17049 retn ;~ 01A2:7560
 sub_17561:
+ printf("AIL sub_17561: init\n");
 	// 17056
 cs=0x1a2;eip=0x007561; 	X(MOV(*(dw*)(raddr(ds,0x0A39A)), 0));	// 17057 mov     word ptr ds:0A39Ah, 0 ;~ 01A2:7561
 ret_1a2_7567:
@@ -15011,6 +15037,7 @@ locret_176bc:
 	// 5851
 cs=0x1a2;eip=0x0076bc; 	J(RETF(0));	// 17183 retf ;~ 01A2:76BC
 sub_176bd:
+ printf("AIL sub_176bd: sequence_num: %x FORM_XMID_high: %x state_table_offset: %x\n", ax, bx, si);
 	// 17188
 cs=0x1a2;eip=0x0076bd; 	X(PUSHF);	// 17190 pushf ;~ 01A2:76BD
 ret_1a2_76be:
@@ -15128,6 +15155,7 @@ ret_1a2_77b5:
 cs=0x1a2;eip=0x0077b5; 	T(ADD(bx, 2));	// 17321 add     bx, 2 ;~ 01A2:77B5
 cs=0x1a2;eip=0x0077b8; 	T(AND(ax, 0x0FF));	// 17322 and     ax, 0FFh ;~ 01A2:77B8
 sub_177bb:
+ printf("AIL sub_177bb: restart playback\n");
 	// 17329
 cs=0x1a2;eip=0x0077bb; 	X(PUSH(es));	// 17331 push    es ;~ 01A2:77BB
 cs=0x1a2;eip=0x0077bc; 	X(PUSH(bx));	// 17332 push    bx ;~ 01A2:77BC
@@ -15143,6 +15171,7 @@ cs=0x1a2;eip=0x0077cf; 	J(JNZ(loc_177e1));	// 17341 jnz     short loc_177E1 ;~ 0
 cs=0x1a2;eip=0x0077d1; 	X(POP(ax));	// 17342 pop     ax ;~ 01A2:77D1
 cs=0x1a2;eip=0x0077d2; 	X(MOV(*(dw*)(raddr(ds,si-0x66EA)), ax));	// 17343 mov     [si-66EAh], ax ;~ 01A2:77D2
 cs=0x1a2;eip=0x0077d6; 	T(MOV(bx, *(dw*)(raddr(ds,0x2E6D))));	// 17344 mov     bx, ds:2E6Dh ;~ 01A2:77D6
+ printf("AIL sub_177bb: start\n");
 cs=0x1a2;eip=0x0077da; 	J(CALL(sub_176bd,0));	// 17345 call    sub_176BD ;~ 01A2:77DA
 cs=0x1a2;eip=0x0077dd; 	X(POP(si));	// 17346 pop     si ;~ 01A2:77DD
 cs=0x1a2;eip=0x0077de; 	X(POP(bx));	// 17347 pop     bx ;~ 01A2:77DE
@@ -15155,6 +15184,7 @@ cs=0x1a2;eip=0x0077e2; 	X(PUSHF);	// 17354 pushf ;~ 01A2:77E2
 cs=0x1a2;eip=0x0077e3; 	T(CLI);	// 17355 cli ;~ 01A2:77E3
 cs=0x1a2;eip=0x0077e4; 	X(PUSH(*(dw*)(raddr(ds,si-0x66F4))));	// 17356 push    word ptr [si-66F4h] ;~ 01A2:77E4
 cs=0x1a2;eip=0x0077e8; 	X(PUSH(*(dw*)(raddr(ds,0x98E6))));	// 17357 push    word ptr ds:98E6h ;~ 01A2:77E8
+ printf("AIL sub_177bb: status\n");
 cs=0x1a2;eip=0x0077ec; 	J(CALLF(sub_1c7ab,0));	// 17358 call    sub_1C7AB ;~ 01A2:77EC
 cs=0x1a2;eip=0x0077f1; 	T(ADD(sp, 4));	// 17359 add     sp, 4 ;~ 01A2:77F1
 cs=0x1a2;eip=0x0077f4; 	X(POPF);	// 17360 popf ;~ 01A2:77F4
@@ -15166,6 +15196,7 @@ cs=0x1a2;eip=0x0077fc; 	X(PUSHF);	// 17365 pushf ;~ 01A2:77FC
 cs=0x1a2;eip=0x0077fd; 	T(CLI);	// 17366 cli ;~ 01A2:77FD
 cs=0x1a2;eip=0x0077fe; 	X(PUSH(*(dw*)(raddr(ds,si-0x66F4))));	// 17367 push    word ptr [si-66F4h] ;~ 01A2:77FE
 cs=0x1a2;eip=0x007802; 	X(PUSH(*(dw*)(raddr(ds,0x98E6))));	// 17368 push    word ptr ds:98E6h ;~ 01A2:7802
+ printf("AIL sub_177bb: release\n");
 cs=0x1a2;eip=0x007806; 	J(CALLF(sub_1c769,0));	// 17369 call    sub_1C769 ;~ 01A2:7806
 cs=0x1a2;eip=0x00780b; 	T(ADD(sp, 4));	// 17370 add     sp, 4 ;~ 01A2:780B
 cs=0x1a2;eip=0x00780e; 	X(POPF);	// 17371 popf ;~ 01A2:780E
@@ -15173,6 +15204,7 @@ cs=0x1a2;eip=0x00780f; 	X(POP(si));	// 17372 pop     si ;~ 01A2:780F
 cs=0x1a2;eip=0x007810; 	X(POP(ax));	// 17373 pop     ax ;~ 01A2:7810
 cs=0x1a2;eip=0x007811; 	X(MOV(*(dw*)(raddr(ds,si-0x66EA)), ax));	// 17374 mov     [si-66EAh], ax ;~ 01A2:7811
 cs=0x1a2;eip=0x007815; 	T(MOV(bx, *(dw*)(raddr(ds,0x2E6D))));	// 17375 mov     bx, ds:2E6Dh ;~ 01A2:7815
+ printf("AIL sub_177bb: start\n");
 cs=0x1a2;eip=0x007819; 	J(CALL(sub_176bd,0));	// 17376 call    sub_176BD ;~ 01A2:7819
 cs=0x1a2;eip=0x00781c; 	X(POP(si));	// 17377 pop     si ;~ 01A2:781C
 cs=0x1a2;eip=0x00781d; 	X(POP(bx));	// 17378 pop     bx ;~ 01A2:781D
@@ -15190,6 +15222,7 @@ cs=0x1a2;eip=0x007827; 	X(POP(bx));	// 17390 pop     bx ;~ 01A2:7827
 cs=0x1a2;eip=0x007828; 	X(POP(es));	// 17391 pop     es ;~ 01A2:7828
 cs=0x1a2;eip=0x007829; 	J(RETN(0));	// 17392 retn ;~ 01A2:7829
 sub_1782a:
+ printf("AIL sub_1782a: stop\n");
 	// 17399
 cs=0x1a2;eip=0x00782a; 	T(MOV(ax, *(dw*)(raddr(es,bx))));	// 17401 mov     ax, es:[bx] ;~ 01A2:782A
 ret_1a2_782d:
@@ -15211,11 +15244,13 @@ cs=0x1a2;eip=0x007846; 	X(PUSH(si));	// 17415 push    si ;~ 01A2:7846
 cs=0x1a2;eip=0x007847; 	X(PUSH(si));	// 17416 push    si ;~ 01A2:7847
 cs=0x1a2;eip=0x007848; 	X(PUSH(*(dw*)(raddr(ds,si-0x66F4))));	// 17417 push    word ptr [si-66F4h] ;~ 01A2:7848
 cs=0x1a2;eip=0x00784c; 	X(PUSH(*(dw*)(raddr(ds,0x98E6))));	// 17418 push    word ptr ds:98E6h ;~ 01A2:784C
+ printf("AIL sub_1782a: stop playback\n");
 cs=0x1a2;eip=0x007850; 	J(CALLF(sub_1c79f,0));	// 17419 call    sub_1C79F ;~ 01A2:7850
 cs=0x1a2;eip=0x007855; 	T(ADD(sp, 4));	// 17420 add     sp, 4 ;~ 01A2:7855
 cs=0x1a2;eip=0x007858; 	X(POP(si));	// 17421 pop     si ;~ 01A2:7858
 cs=0x1a2;eip=0x007859; 	X(PUSH(*(dw*)(raddr(ds,si-0x66F4))));	// 17422 push    word ptr [si-66F4h] ;~ 01A2:7859
 cs=0x1a2;eip=0x00785d; 	X(PUSH(*(dw*)(raddr(ds,0x98E6))));	// 17423 push    word ptr ds:98E6h ;~ 01A2:785D
+ printf("AIL sub_1782a: release\n");
 cs=0x1a2;eip=0x007861; 	J(CALLF(sub_1c769,0));	// 17424 call    sub_1C769 ;~ 01A2:7861
 cs=0x1a2;eip=0x007866; 	T(ADD(sp, 4));	// 17425 add     sp, 4 ;~ 01A2:7866
 cs=0x1a2;eip=0x007869; 	X(POP(si));	// 17426 pop     si ;~ 01A2:7869
@@ -15310,6 +15345,7 @@ locret_17911:
 	// 5877
 cs=0x1a2;eip=0x007911; 	J(RETN(0));	// 17528 retn ;~ 01A2:7911
 sub_17912:
+ printf("AIL sub_17912: stop2\n");
 	// 17535
 cs=0x1a2;eip=0x007912; 	T(TEST(*(dw*)(raddr(ds,0x302)), 0x0FFFF));	// 17536 test    word ptr ds:302h, 0FFFFh ;~ 01A2:7912
 ret_1a2_7918:
