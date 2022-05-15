@@ -1,7 +1,10 @@
 #include <SDL2/SDL.h>
-const int SCREEN_WIDTH = 344;
-const int SCREEN_HEIGHT = 240;//760;
-uint32_t tempDrawBuffer[SCREEN_WIDTH*SCREEN_HEIGHT];
+const int SCREEN_SCALE = 4;
+const int SCREEN_WIDTH = 320;
+const int SCREEN_HEIGHT = 240;
+const int RENDER_WIDTH = 344;
+const int RENDER_HEIGHT = 240;
+uint32_t tempDrawBuffer[RENDER_WIDTH*RENDER_HEIGHT];
 struct myDrawInfoS
 {
   uint8_t drawBuffer[65536*4];
@@ -20,7 +23,7 @@ unsigned int plane4_to_linear(unsigned int plane, unsigned int offset)
 }
 uint32_t planar_to_linear(uint32_t x, uint32_t y)
 {
-  return (y * SCREEN_WIDTH + x);
+  return (y * RENDER_WIDTH + x);
 }
 void drawPixel(uint32_t offset, uint8_t color)
 {
@@ -38,7 +41,7 @@ void setPalette(uint8_t color, uint8_t r, uint8_t g, uint8_t b)
 }
 void updateDraw()
  {
-  for (int i = 0; i < 176 * SCREEN_WIDTH; i++)
+  for (int i = 0; i < 176 * RENDER_WIDTH; i++)
   {
 	//myDrawInfo->myOffset=0x5be8;
 	//myDrawInfo->myOffset=0xa1c8;
@@ -46,17 +49,18 @@ void updateDraw()
 	//myDrawInfo->myOffset=0;
 	auto color = myDrawInfo->drawBuffer[myDrawInfo->myOffset * 4 + myDrawInfo->myPixelOffset + i];
 	auto sdl_color = myDrawInfo->drawPalette[color];
-	tempDrawBuffer[i + 0 * SCREEN_WIDTH] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
+	tempDrawBuffer[i + 0 * RENDER_WIDTH] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
   }
-  for (int i = 0; i < SCREEN_WIDTH * (SCREEN_HEIGHT - 176); i++)
+  for (int i = 0; i < RENDER_WIDTH * (RENDER_HEIGHT - 176); i++)
   {
 	auto color = myDrawInfo->drawBuffer[0 + myDrawInfo->myPixelOffset + i];
 	auto sdl_color = myDrawInfo->drawPalette[color];
-	tempDrawBuffer[i + 176 * SCREEN_WIDTH] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
+	tempDrawBuffer[i + 176 * RENDER_WIDTH] = SDL_MapRGBA(myFormat, sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
   }
-  SDL_UpdateTexture(myTexture, NULL, tempDrawBuffer, SCREEN_WIDTH*sizeof(uint32_t));
+  SDL_UpdateTexture(myTexture, NULL, tempDrawBuffer, RENDER_WIDTH*sizeof(uint32_t));
   SDL_RenderClear(myRenderer);
-  SDL_RenderCopy(myRenderer, myTexture, NULL, NULL);
+  SDL_Rect srcRect = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+  SDL_RenderCopy(myRenderer, myTexture, &srcRect, NULL);
   SDL_RenderPresent(myRenderer);
 }
 
@@ -73,7 +77,7 @@ void updateDraw()
 
 int main()
 {
-  		char *shmpath = "/myDrawInfo";
+  		const char *shmpath = "/myDrawInfo";
 
 		shm_unlink(shmpath);
 
@@ -100,7 +104,7 @@ int main()
     {
 	  printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
     }
-	myWindow = SDL_CreateWindow( "FFFF", 2880 - 2*SCREEN_WIDTH, 1800 - 2*SCREEN_HEIGHT, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SDL_WINDOW_BORDERLESS );
+	myWindow = SDL_CreateWindow( "FFFF", 2880 - SCREEN_SCALE*SCREEN_WIDTH, 1800 - SCREEN_SCALE*SCREEN_HEIGHT, SCREEN_WIDTH * SCREEN_SCALE, SCREEN_HEIGHT * SCREEN_SCALE, SDL_WINDOW_BORDERLESS );
 		if( myWindow == NULL )
 		{
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -109,7 +113,7 @@ int main()
 		{
 			myRenderer = SDL_CreateRenderer(myWindow, -1, SDL_RENDERER_ACCELERATED);
 
-			myTexture = SDL_CreateTexture(myRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
+			myTexture = SDL_CreateTexture(myRenderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, RENDER_WIDTH, RENDER_HEIGHT);
 
 			myFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888);
 
